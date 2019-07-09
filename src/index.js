@@ -1,5 +1,7 @@
 import delay from 'interruptible-timer';
 
+const isTest = () => process.env.NODE_ENV == 'test';
+
 const constructor = (polling) => {
     const publ = {};
     const destructors = new Set();
@@ -13,11 +15,19 @@ const constructor = (polling) => {
             (ms) => {
                 const timer = delay(ms, () => {
                     destructors.delete(timer.stop);
+                    isTest() && console.log('destructors size:', destructors.size);
                 });
                 destructors.add(timer.stop);
+                isTest() && console.log('destructors size:', destructors.size);
                 return timer.timeout;
             },
         );
+        if (isTest()) {
+            return stopped.then(() => {
+                console.log('destructors size:', destructors.size);
+            });
+        }
+        return stopped;
     };
 
     publ.stop = () => {
