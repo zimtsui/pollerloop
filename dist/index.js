@@ -15,7 +15,7 @@ var isTest = function isTest() {
   return process.env.NODE_ENV == 'test';
 };
 
-var constructor = function constructor(polling) {
+var Pollerloop = function Pollerloop(polling) {
   var publ = {};
   var destructors = new Set();
   var running;
@@ -60,8 +60,6 @@ var constructor = function constructor(polling) {
   return publ;
 };
 
-var _default = {
-  constructor: constructor
-};
+var _default = Pollerloop;
 exports["default"] = _default;
 //# sourceMappingURL=index.js.map
