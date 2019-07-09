@@ -2,7 +2,7 @@ import delay from 'interruptible-timer';
 
 const isTest = () => process.env.NODE_ENV == 'test';
 
-const constructor = (polling) => {
+const Pollerloop = (polling) => {
     const publ = {};
     const destructors = new Set();
     let running;
@@ -44,6 +44,4 @@ const constructor = (polling) => {
     return publ;
 };
 
-export default {
-    constructor,
-};
+export default Pollerloop;
