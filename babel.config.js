@@ -1,5 +1,6 @@
-module.exports = (api) => {
-    const plugins = [
+module.exports = {
+    presets: ['@babel/preset-env'],
+    plugins: [
         '@babel/plugin-transform-runtime',
         '@babel/plugin-proposal-function-bind',
         '@babel/plugin-proposal-class-properties',
@@ -9,10 +10,6 @@ module.exports = (api) => {
         '@babel/plugin-proposal-logical-assignment-operators',
         '@babel/plugin-syntax-dynamic-import',
         'babel-plugin-root-import',
-    ];
-    if (!api.env('test')) plugins.push('babel-plugin-source-map-support');
-    return {
-        presets: ['@babel/preset-env'],
-        plugins,
-    };
+        'babel-plugin-source-map-support',
+    ],
 };
