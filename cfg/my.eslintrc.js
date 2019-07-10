@@ -21,5 +21,6 @@ module.exports = {
         'no-unused-expressions': 'off',
         eqeqeq: 'off',
         'no-param-reassign': 'off',
+        'no-mixed-operators': 'off',
     },
 };
