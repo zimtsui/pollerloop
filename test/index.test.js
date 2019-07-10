@@ -1,10 +1,11 @@
 import Promise from 'bluebird';
-import Pollerloop from '~/src/index';
+import test from 'ava';
+import sinon from 'sinon';
+import assert from 'assert';
+import Pollerloop from '~/dist/index';
 
-let tik;
-
-beforeEach(() => {
-    tik = (() => {
+test.beforeEach((t) => {
+    t.context.tik = (() => {
         let time;
         return () => {
             if (time) {
@@ -18,30 +19,32 @@ beforeEach(() => {
     })();
 });
 
-test('test 1', async () => {
-    console.log('++++++++++++ test 1 +++++++++++++');
-    const poller = async (stopping, isRunning, delay) => {
+test('test 1', async (t) => {
+    global.logger = t;
+    const { tik } = t.context;
+    const polling = async (stopping, isRunning, delay) => {
         for (let i = 1; i <= 3 && isRunning(); i += 1) {
-            console.log(tik());
+            t.log(tik());
             const timer1 = delay(1000);
             await timer1;
         }
         stopping();
     };
-    const cb = jest.fn();
-    const pollerloop = Pollerloop(poller);
-    await expect(pollerloop.start(cb)).resolves.toBe();
-    expect(cb.mock.calls[0].length).toBe(0);
+    const cb = sinon.fake();
+    const pollerloop = Pollerloop(polling);
+    await pollerloop.start(cb);
+    assert(cb.args[0].length === 0);
 });
 
-test.only('test exception', async () => {
-    console.log('++++++++++++ test exception +++++++++++++');
-    const poller = async (stopping, isRunning, delay) => {
+test('test exception', async (t) => {
+    global.logger = t;
+    const { tik } = t.context;
+    const polling = async (stopping, isRunning, delay) => {
         for (let i = 1; i <= 3 && isRunning(); i += 1) {
-            console.log(tik());
+            t.log(tik());
             const timer1 = delay(1000);
 
-            if (i == 2) {
+            if (i === 2) {
                 const err = new Error('haha');
                 stopping(err);
                 throw err;
@@ -51,92 +54,102 @@ test.only('test exception', async () => {
         }
         stopping();
     };
-    const cb = jest.fn();
-    const pollerloop = Pollerloop(poller);
-    await expect(pollerloop.start(cb)).rejects.toThrow('haha');
-    // await expect(Promise.reject(cb.mock.calls[0][0])).rejects.toThrow('haha');
-    await expect(Promise.reject(new Error('haha'))).rejects.toThrow('haha');
-    // console.log(cb.mock.calls[0][0]);
+    const cb = sinon.fake();
+    const pollerloop = Pollerloop(polling);
+    await assert.rejects(pollerloop.start(cb), { message: 'haha' });
+    assert(cb.args[0][0].message === 'haha');
 });
 
-test('test manual stop', async () => {
-    console.log('++++++++++++ test manual stop +++++++++++++');
-    const poller = async (stopping, isRunning, delay) => {
+test('test manual stop', async (t) => {
+    global.logger = t;
+    const { tik } = t.context;
+    const polling = async (stopping, isRunning, delay) => {
         for (let i = 1; i <= 100 && isRunning(); i += 1) {
-            console.log(tik());
+            t.log(tik());
             const timer1 = delay(1000);
             await timer1;
         }
         stopping();
     };
-    const cb = jest.fn();
-    const pollerloop = Pollerloop(poller);
+    const cb = sinon.fake();
+    const pollerloop = Pollerloop(polling);
     const loop = pollerloop.start(cb);
     Promise.delay(1500).then(() => pollerloop.stop());
-    await expect(loop).resolves.toBe();
-    expect(cb.mock.calls[0].length).toBe(0);
+    await loop;
+    assert(cb.args[0].length === 0);
 });
 
-test('test 2', async () => {
-    console.log('++++++++++++ test 2 +++++++++++++');
-    const poller = async (stopping, isRunning, delay) => {
+test('test 2', async (t) => {
+    global.logger = t;
+    const { tik } = t.context;
+    const polling = async (stopping, isRunning, delay) => {
         for (let i = 1; i <= 3 && isRunning(); i += 1) {
-            console.log(tik());
+            t.log(tik());
             const timer1 = delay(300);
             await timer1;
+            if (!isRunning()) break;
 
-            console.log(tik());
+            t.log(tik());
             const timer2 = delay(700);
             await timer2;
         }
         stopping();
     };
-    const pollerloop = Pollerloop(poller);
-    return pollerloop.start();
+    const cb = sinon.fake();
+    const pollerloop = Pollerloop(polling);
+    return pollerloop.start(cb);
 });
 
-test('test 3', async () => {
-    console.log('++++++++++++ test 3 +++++++++++++');
-    const poller = async (stopping, isRunning, delay) => {
+test('test 3', async (t) => {
+    global.logger = t;
+    const { tik } = t.context;
+    const polling = async (stopping, isRunning, delay) => {
         for (let i = 1; i <= 3 && isRunning(); i += 1) {
             const timer1 = delay(800);
 
-            console.log(tik());
+            t.log(tik());
             const timer2 = delay(300);
             await timer2;
+            if (!isRunning()) break;
 
-            console.log(tik());
+            t.log(tik());
             const timer3 = delay(700);
             await timer3;
+            if (!isRunning()) break;
 
-            console.log(tik());
+            t.log(tik());
             await timer1;
         }
         stopping();
     };
-    const pollerloop = Pollerloop(poller);
-    return pollerloop.start();
+    const cb = sinon.fake();
+    const pollerloop = Pollerloop(polling);
+    return pollerloop.start(cb);
 });
 
-test('test 4', async () => {
-    console.log('++++++++++++ test 4 +++++++++++++');
-    const poller = async (stopping, isRunning, delay) => {
+test('test 4', async (t) => {
+    global.logger = t;
+    const { tik } = t.context;
+    const polling = async (stopping, isRunning, delay) => {
         for (let i = 1; i <= 3 && isRunning(); i += 1) {
             const timer1 = delay(1000);
 
-            console.log(tik());
+            t.log(tik());
             const timer2 = delay(300);
             await timer2;
+            if (!isRunning()) break;
 
-            console.log(tik());
+            t.log(tik());
             const timer3 = delay(200);
             await timer3;
+            if (!isRunning()) break;
 
-            console.log(tik());
+            t.log(tik());
             await timer1;
         }
         stopping();
     };
-    const pollerloop = Pollerloop(poller);
-    return pollerloop.start();
+    const cb = sinon.fake();
+    const pollerloop = Pollerloop(polling);
+    return pollerloop.start(cb);
 });

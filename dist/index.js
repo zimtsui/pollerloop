@@ -11,36 +11,39 @@ require("source-map-support/register");
 
 var _interruptibleTimer = _interopRequireDefault(require("interruptible-timer"));
 
-var isTest = function isTest() {
-  return process.env.NODE_ENV == 'test';
-};
+// const isTest = () => process.env.NODE_ENV === 'test' && global.logger;
 
+/*
+三种情况
+
+- 自动结束
+- 手动结束
+- 异常结束
+*/
 var Pollerloop = function Pollerloop(polling) {
   var publ = {};
   var destructors = new Set();
   var running;
   var stopped;
+  var stopping;
 
-  publ.start = function () {
+  publ.start = function (newStopping) {
+    stopping = newStopping;
     running = true;
-    stopped = polling(function () {
+    stopped = polling(function (err) {
+      destructors.forEach(function (destructor) {
+        return destructor();
+      });
+      if (err) stopping(err);else stopping();
+    }, function () {
       return running;
     }, function (ms) {
       var timer = (0, _interruptibleTimer["default"])(ms, function () {
         destructors["delete"](timer.stop);
-        isTest() && console.log('destructors size:', destructors.size);
       });
       destructors.add(timer.stop);
-      isTest() && console.log('destructors size:', destructors.size);
-      return timer.timeout;
+      return timer.timeout["catch"](function () {});
     });
-
-    if (isTest()) {
-      return stopped.then(function () {
-        console.log('destructors size:', destructors.size);
-      });
-    }
-
     return stopped;
   };
 
@@ -49,7 +52,7 @@ var Pollerloop = function Pollerloop(polling) {
     destructors.forEach(function (destructor) {
       return destructor();
     });
-    return stopped;
+    return stopped["catch"](function () {});
   };
 
   publ.destructor = function () {

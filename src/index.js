@@ -1,39 +1,47 @@
 import delay from 'interruptible-timer';
 
-const isTest = () => process.env.NODE_ENV == 'test';
+// const isTest = () => process.env.NODE_ENV === 'test' && global.logger;
+
+/*
+三种情况
+
+- 自动结束
+- 手动结束
+- 异常结束
+*/
 
 const Pollerloop = (polling) => {
     const publ = {};
     const destructors = new Set();
     let running;
     let stopped;
+    let stopping;
 
-    publ.start = () => {
+    publ.start = (newStopping) => {
+        stopping = newStopping;
         running = true;
         stopped = polling(
+            (err) => {
+                destructors.forEach(destructor => destructor());
+                if (err) stopping(err); else stopping();
+            },
             () => running,
             (ms) => {
                 const timer = delay(ms, () => {
                     destructors.delete(timer.stop);
-                    isTest() && console.log('destructors size:', destructors.size);
                 });
                 destructors.add(timer.stop);
-                isTest() && console.log('destructors size:', destructors.size);
-                return timer.timeout;
+                return timer.timeout.catch(() => {});
             },
         );
-        if (isTest()) {
-            return stopped.then(() => {
-                console.log('destructors size:', destructors.size);
-            });
-        }
+
         return stopped;
     };
 
     publ.stop = () => {
         running = false;
         destructors.forEach(destructor => destructor());
-        return stopped;
+        return stopped.catch(() => {});
     };
 
     publ.destructor = () => {
