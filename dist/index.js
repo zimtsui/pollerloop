@@ -1,68 +1,49 @@
 "use strict";
-
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("source-map-support/register");
-
-var _interruptibleTimer = _interopRequireDefault(require("interruptible-timer"));
-
-// const isTest = () => process.env.NODE_ENV === 'test' && global.logger;
-
-/*
-三种情况
-
-- 自动结束
-- 手动结束
-- 异常结束
-*/
-var Pollerloop = function Pollerloop(polling) {
-  var publ = {};
-  var destructors = new Set();
-  var running;
-  var stopped;
-  var stopping;
-
-  publ.start = function (newStopping) {
-    stopping = newStopping;
-    running = true;
-    stopped = polling(function (err) {
-      destructors.forEach(function (destructor) {
-        return destructor();
-      });
-      if (err) stopping(err);else stopping();
-    }, function () {
-      return running;
-    }, function (ms) {
-      var timer = (0, _interruptibleTimer["default"])(ms, function () {
-        destructors["delete"](timer.stop);
-      });
-      destructors.add(timer.stop);
-      return timer.timeout["catch"](function () {});
-    });
-    return stopped;
-  };
-
-  publ.stop = function () {
-    running = false;
-    destructors.forEach(function (destructor) {
-      return destructor();
-    });
-    return stopped["catch"](function () {});
-  };
-
-  publ.destructor = function () {
-    if (running) return publ.stop();
-    return undefined;
-  };
-
-  return publ;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-var _default = Pollerloop;
-exports["default"] = _default;
+Object.defineProperty(exports, "__esModule", { value: true });
+const interruptible_timer_1 = __importDefault(require("interruptible-timer"));
+const assert_1 = __importDefault(require("assert"));
+class Pollerloop {
+    constructor(polling) {
+        this.polling = polling;
+        this.destructors = new Set();
+        this.running = false;
+        this.stopped = undefined;
+        this.stopping = undefined;
+    }
+    start(newStopping) {
+        this.stopping = newStopping;
+        this.running = true;
+        this.stopped = this.polling((err) => {
+            this.destructors.forEach(destructor => destructor());
+            if (err)
+                this.stopping(err);
+            else
+                this.stopping();
+        }, () => this.running, (ms) => {
+            let timerInterruptbind;
+            const timer = new interruptible_timer_1.default(ms, () => {
+                this.destructors.delete(timerInterruptbind);
+            });
+            timerInterruptbind = timer.interrupt.bind(timer);
+            this.destructors.add(timerInterruptbind);
+            return timer.promise.catch(() => { });
+        });
+        return this.stopped;
+    }
+    stop() {
+        assert_1.default(this.running);
+        this.running = false;
+        this.destructors.forEach(destructor => destructor());
+        return this.stopped;
+    }
+    destructor() {
+        if (this.running)
+            return this.stop().then(() => { });
+        return Promise.resolve();
+    }
+}
+exports.default = Pollerloop;
 //# sourceMappingURL=index.js.map
