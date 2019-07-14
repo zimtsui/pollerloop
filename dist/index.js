@@ -13,8 +13,8 @@ class Pollerloop {
         this.stopped = undefined;
         this.stopping = undefined;
     }
-    start(newStopping) {
-        this.stopping = newStopping;
+    start(stopping) {
+        this.stopping = stopping;
         this.running = true;
         this.stopped = this.polling((err) => {
             this.destructors.forEach(destructor => destructor());

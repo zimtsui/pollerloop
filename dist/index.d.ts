@@ -11,7 +11,7 @@ declare class Pollerloop {
     private stopped;
     private stopping;
     constructor(polling: Polling);
-    start(newStopping: Callback): Promise<boolean>;
+    start(stopping: Callback): Promise<boolean>;
     stop(): Promise<boolean>;
     destructor(): Promise<void>;
 }

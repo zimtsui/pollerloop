@@ -134,8 +134,8 @@
         "signature": "e84e42d1e85c311b9d91511ad2b927e646a45834e75f578952aaa5003447c94f"
       },
       "/home/zim/pollerloop/src/index.ts": {
-        "version": "053ce6762b8fc90805b0b2af580d882393e7446dfe2539982ed29a28751bda32",
-        "signature": "baf6f2b3744b911fab11e69989e44690df5f59e1fddbca637acb3f0ea3cc5769"
+        "version": "ea9762ece59d51a51f89f56cf0996a4245cec8181bbb6385e4fa329447d8322f",
+        "signature": "141de031f1123785dfe7fd8c4e342f831623c749727ad43a0a2b03e56cc6d5b1"
       },
       "/home/zim/pollerloop/node_modules/@types/bluebird/index.d.ts": {
         "version": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34",
