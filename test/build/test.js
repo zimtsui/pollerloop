@@ -14,7 +14,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bluebird_1 = __importDefault(require("bluebird"));
 const ava_1 = __importDefault(require("ava"));
 const sinon_1 = __importDefault(require("sinon"));
-const assert_1 = __importDefault(require("assert"));
+const chai_1 = __importDefault(require("chai"));
+const chai_as_promised_1 = __importDefault(require("chai-as-promised"));
+chai_1.default.use(chai_as_promised_1.default);
+const { assert } = chai_1.default;
 const __1 = __importDefault(require("../.."));
 ava_1.default.beforeEach((t) => {
     t.context.tik = (() => {
@@ -41,12 +44,11 @@ ava_1.default('test 1', (t) => __awaiter(this, void 0, void 0, function* () {
             yield timer1;
         }
         stopping();
-        return isRunning();
     });
     const cb = sinon_1.default.fake();
     const pollerloop = new __1.default(polling);
-    assert_1.default(yield pollerloop.start(cb));
-    assert_1.default(cb.args[0].length === 0);
+    yield pollerloop.start(cb);
+    assert.isUndefined(cb.args[0][0]);
 }));
 ava_1.default('test exception', (t) => __awaiter(this, void 0, void 0, function* () {
     const { tik } = t.context;
@@ -62,12 +64,11 @@ ava_1.default('test exception', (t) => __awaiter(this, void 0, void 0, function*
             yield timer1;
         }
         stopping();
-        return isRunning();
     });
     const cb = sinon_1.default.fake();
     const pollerloop = new __1.default(polling);
-    yield assert_1.default.rejects(pollerloop.start(cb), { message: 'haha' });
-    assert_1.default(cb.args[0][0].message === 'haha');
+    yield assert.isRejected(pollerloop.start(cb), { message: 'haha' });
+    assert.strictEqual(cb.args[0][0].message, 'haha');
 }));
 ava_1.default('test manual stop', (t) => __awaiter(this, void 0, void 0, function* () {
     const { tik } = t.context;
@@ -78,17 +79,15 @@ ava_1.default('test manual stop', (t) => __awaiter(this, void 0, void 0, functio
             yield timer1;
         }
         stopping();
-        return isRunning();
     });
     const cb = sinon_1.default.fake();
     const pollerloop = new __1.default(polling);
-    const loop = pollerloop.start(cb);
     bluebird_1.default.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.stop();
     });
-    assert_1.default(!(yield loop));
-    assert_1.default(cb.args[0].length === 0);
+    yield pollerloop.start(cb);
+    assert.isUndefined(cb.args[0][0]);
 }));
 ava_1.default('test 2', (t) => __awaiter(this, void 0, void 0, function* () {
     const { tik } = t.context;
@@ -104,11 +103,11 @@ ava_1.default('test 2', (t) => __awaiter(this, void 0, void 0, function* () {
             yield timer2;
         }
         stopping();
-        return isRunning();
     });
     const cb = sinon_1.default.fake();
     const pollerloop = new __1.default(polling);
-    assert_1.default(yield pollerloop.start(cb));
+    yield pollerloop.start(cb);
+    assert.isUndefined(cb.args[0][0]);
 }));
 ava_1.default('test 3', (t) => __awaiter(this, void 0, void 0, function* () {
     const { tik } = t.context;
@@ -129,11 +128,11 @@ ava_1.default('test 3', (t) => __awaiter(this, void 0, void 0, function* () {
             yield timer1;
         }
         stopping();
-        return isRunning();
     });
     const cb = sinon_1.default.fake();
     const pollerloop = new __1.default(polling);
-    assert_1.default(yield pollerloop.start(cb));
+    yield pollerloop.start(cb);
+    assert.isUndefined(cb.args[0][0]);
 }));
 ava_1.default('test 4', (t) => __awaiter(this, void 0, void 0, function* () {
     const { tik } = t.context;
@@ -154,10 +153,10 @@ ava_1.default('test 4', (t) => __awaiter(this, void 0, void 0, function* () {
             yield timer1;
         }
         stopping();
-        return isRunning();
     });
     const cb = sinon_1.default.fake();
     const pollerloop = new __1.default(polling);
-    assert_1.default(yield pollerloop.start(cb));
+    yield pollerloop.start(cb);
+    assert.isUndefined(cb.args[0][0]);
 }));
 //# sourceMappingURL=test.js.map

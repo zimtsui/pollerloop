@@ -10,30 +10,36 @@ interface Polling {
         stopping: (err?: Error) => void,
         isRunning: () => boolean,
         delay: (ms: number) => Promise<void>,
-    ): Promise<boolean>;
+    ): Promise<void>;
+}
+
+enum States {
+    CONSTRUCTED,
+    STARTED,
+    STOPPING,
 }
 
 class Pollerloop {
+    private state = States.CONSTRUCTED;
     private timers = new Set<Timer>();
-    private running: boolean = false;
-    private stopped: Promise<boolean> | undefined = undefined;
+    // private stopped: Promise<void> | undefined = undefined;
     private stopping: Callback | undefined = undefined;
 
     /**
-     * @param {Polling} polling - fulfilled with true for auto ending,
-     * false for manual ending, and rejected for exception.
+     * @param {Polling} polling - returns a promise fulfilled for auto or manual ending,
+     * and rejected for exception.
      */
     constructor(private polling: Polling) { }
 
-    start(stopping: Callback = () => { }): Promise<boolean> {
+    start(stopping: Callback = () => { }): Promise<void> {
         this.stopping = stopping;
-        this.running = true;
-        this.stopped = this.polling(
+        this.state = States.CONSTRUCTED;
+        this.state = States.STARTED;
+        return this.polling(
             (err?: Error) => {
-                this.timers.forEach(timer => timer.interrupt());
-                if (err) this.stopping!(err); else this.stopping!();
+                this.state === States.STARTED && this.stop(err);
             },
-            () => this.running,
+            () => this.state === States.STARTED,
             (ms: number) => {
                 const timer = new Timer(ms, () => {
                     this.timers.delete(timer);
@@ -42,20 +48,15 @@ class Pollerloop {
                 return timer.promise.catch(() => { });
             },
         );
-        return this.stopped;
     }
 
-    stop(): Promise<boolean> {
-        assert(this.running);
-        this.running = false;
+    stop(err?: Error): void {
+        assert(this.state === States.STARTED);
+        this.state = States.STOPPING;
+        this.stopping!(err);
         this.timers.forEach(timer => timer.interrupt());
-        return this.stopped!;
-    }
-
-    destructor(): Promise<void> {
-        if (this.running) return this.stop().then(() => { });
-        return Promise.resolve();
     }
 }
 
+export { Polling };
 export default Pollerloop;

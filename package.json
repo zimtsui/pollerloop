@@ -23,9 +23,13 @@
         "interruptible-timer": "git+https://github.com/zimtsui/interruptible-timer.git"
     },
     "devDependencies": {
+        "@types/chai": "^4.1.7",
+        "@types/chai-as-promised": "^7.1.0",
         "@types/sinon": "^7.0.13",
         "ava": "^2.2.0",
         "bluebird": "^3.5.5",
+        "chai": "^4.2.0",
+        "chai-as-promised": "^7.1.1",
         "sinon": "^7.3.2",
         "typescript": "^3.5.3"
     },
