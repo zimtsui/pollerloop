@@ -12,7 +12,7 @@ class Pollerloop {
      */
     constructor(polling) {
         this.polling = polling;
-        this.destructors = new Set();
+        this.timers = new Set();
         this.running = false;
         this.stopped = undefined;
         this.stopping = undefined;
@@ -21,18 +21,16 @@ class Pollerloop {
         this.stopping = stopping;
         this.running = true;
         this.stopped = this.polling((err) => {
-            this.destructors.forEach(destructor => destructor());
+            this.timers.forEach(timer => timer.interrupt());
             if (err)
                 this.stopping(err);
             else
                 this.stopping();
         }, () => this.running, (ms) => {
-            let timerInterruptbind;
             const timer = new interruptible_timer_1.default(ms, () => {
-                this.destructors.delete(timerInterruptbind);
+                this.timers.delete(timer);
             });
-            timerInterruptbind = timer.interrupt.bind(timer);
-            this.destructors.add(timerInterruptbind);
+            this.timers.add(timer);
             return timer.promise.catch(() => { });
         });
         return this.stopped;
@@ -40,7 +38,7 @@ class Pollerloop {
     stop() {
         assert_1.default(this.running);
         this.running = false;
-        this.destructors.forEach(destructor => destructor());
+        this.timers.forEach(timer => timer.interrupt());
         return this.stopped;
     }
     destructor() {

@@ -6,7 +6,7 @@ interface Polling {
 }
 declare class Pollerloop {
     private polling;
-    private destructors;
+    private timers;
     private running;
     private stopped;
     private stopping;

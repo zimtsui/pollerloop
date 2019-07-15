@@ -1,4 +1,4 @@
-import Delay from 'interruptible-timer';
+import Timer from 'interruptible-timer';
 import assert from 'assert';
 
 interface Callback {
@@ -14,7 +14,7 @@ interface Polling {
 }
 
 class Pollerloop {
-    private destructors = new Set<Function>();
+    private timers = new Set<Timer>();
     private running: boolean = false;
     private stopped: Promise<boolean> | undefined = undefined;
     private stopping: Callback | undefined = undefined;
@@ -30,17 +30,15 @@ class Pollerloop {
         this.running = true;
         this.stopped = this.polling(
             (err?: Error) => {
-                this.destructors.forEach(destructor => destructor());
+                this.timers.forEach(timer => timer.interrupt());
                 if (err) this.stopping!(err); else this.stopping!();
             },
             () => this.running,
             (ms: number) => {
-                let timerInterruptbind: Delay['interrupt'];
-                const timer = new Delay(ms, () => {
-                    this.destructors.delete(timerInterruptbind);
+                const timer = new Timer(ms, () => {
+                    this.timers.delete(timer);
                 });
-                timerInterruptbind = timer.interrupt.bind(timer);
-                this.destructors.add(timerInterruptbind);
+                this.timers.add(timer);
                 return timer.promise.catch(() => { });
             },
         );
@@ -50,7 +48,7 @@ class Pollerloop {
     stop(): Promise<boolean> {
         assert(this.running);
         this.running = false;
-        this.destructors.forEach(destructor => destructor());
+        this.timers.forEach(timer => timer.interrupt());
         return this.stopped!;
     }
 
