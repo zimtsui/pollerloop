@@ -1,11 +1,3 @@
-/*
-三种情况
-
-- 自动结束
-- 手动结束
-- 异常结束
-*/
-
 import Delay from 'interruptible-timer';
 import assert from 'assert';
 
@@ -27,6 +19,10 @@ class Pollerloop {
     private stopped: Promise<boolean> | undefined = undefined;
     private stopping: Callback | undefined = undefined;
 
+    /**
+     * @param {Polling} polling - fulfilled with true for auto ending,
+     * false for manual ending, and rejected for exception.
+     */
     constructor(private polling: Polling) { }
 
     start(stopping: Callback): Promise<boolean> {

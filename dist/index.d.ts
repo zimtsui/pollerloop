@@ -10,6 +10,10 @@ declare class Pollerloop {
     private running;
     private stopped;
     private stopping;
+    /**
+     * @param {Polling} polling - fulfilled with true for auto ending,
+     * false for manual ending, and rejected for exception.
+     */
     constructor(polling: Polling);
     start(stopping: Callback): Promise<boolean>;
     stop(): Promise<boolean>;

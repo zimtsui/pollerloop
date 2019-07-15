@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const interruptible_timer_1 = __importDefault(require("interruptible-timer"));
 const assert_1 = __importDefault(require("assert"));
 class Pollerloop {
+    /**
+     * @param {Polling} polling - fulfilled with true for auto ending,
+     * false for manual ending, and rejected for exception.
+     */
     constructor(polling) {
         this.polling = polling;
         this.destructors = new Set();
