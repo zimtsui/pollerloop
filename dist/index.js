@@ -17,7 +17,7 @@ class Pollerloop {
         this.stopped = undefined;
         this.stopping = undefined;
     }
-    start(stopping) {
+    start(stopping = () => { }) {
         this.stopping = stopping;
         this.running = true;
         this.stopped = this.polling((err) => {

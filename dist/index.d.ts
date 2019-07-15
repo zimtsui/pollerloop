@@ -15,7 +15,7 @@ declare class Pollerloop {
      * false for manual ending, and rejected for exception.
      */
     constructor(polling: Polling);
-    start(stopping: Callback): Promise<boolean>;
+    start(stopping?: Callback): Promise<boolean>;
     stop(): Promise<boolean>;
     destructor(): Promise<void>;
 }

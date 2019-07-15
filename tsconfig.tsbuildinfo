@@ -134,8 +134,8 @@
         "signature": "bc35b26d0d619abe8c9bb0e84a559a74fd4d06d6d500f65fdbb3b67114a4b19e"
       },
       "/home/zim/pollerloop/src/index.ts": {
-        "version": "cbb4b23e28a5d5b83f72db4c4ce44fdac609de33bb3c61cd7ff8a443b7677c2e",
-        "signature": "3cf44fdf05d5ee53d11294b2eb907265fddc7b75e1507f8d5d6bbfe2cb7017c5"
+        "version": "d15afe091ff578f120b588d58b5f5327752cfcd917c9c1b6e3728ac73a15f4c7",
+        "signature": "77f595aff60d0952f60a13738e899d2c04fcc57babfc913357750ebf3830b9cc"
       },
       "/home/zim/pollerloop/node_modules/@types/bluebird/index.d.ts": {
         "version": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34",
@@ -1238,6 +1238,7 @@
       "/home/zim/pollerloop/node_modules/typescript/lib/lib.es2019.symbol.d.ts",
       "/home/zim/pollerloop/node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "/home/zim/pollerloop/node_modules/typescript/lib/lib.esnext.bigint.d.ts",
+      "/home/zim/pollerloop/node_modules/interruptible-timer/dist/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/bluebird/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/events/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/globals.d.ts",
@@ -1287,7 +1288,6 @@
       "/home/zim/pollerloop/node_modules/@types/minimatch/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/glob/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/sinon/ts3.1/index.d.ts",
-      "/home/zim/pollerloop/node_modules/interruptible-timer/dist/index.d.ts",
       "/home/zim/pollerloop/src/index.ts"
     ]
   },

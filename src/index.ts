@@ -25,7 +25,7 @@ class Pollerloop {
      */
     constructor(private polling: Polling) { }
 
-    start(stopping: Callback): Promise<boolean> {
+    start(stopping: Callback = () => { }): Promise<boolean> {
         this.stopping = stopping;
         this.running = true;
         this.stopped = this.polling(
