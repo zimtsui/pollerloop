@@ -134,12 +134,20 @@
         "signature": "bc35b26d0d619abe8c9bb0e84a559a74fd4d06d6d500f65fdbb3b67114a4b19e"
       },
       "/home/zim/pollerloop/src/index.ts": {
-        "version": "c2b7c4816f679625ec56f2cfe71fb46b8ac520699435e2c7c8b17558af5b32f6",
+        "version": "c330f8d3f1645182d4b4c3b784f6ad6ee9ad12aef3fd425844db5be465af83be",
         "signature": "ba9fff6eb49e74425a1ab438d4a73c74ce7fc3ae9a775e0f8db0246cdaabef9a"
       },
       "/home/zim/pollerloop/node_modules/@types/bluebird/index.d.ts": {
         "version": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34",
         "signature": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34"
+      },
+      "/home/zim/pollerloop/node_modules/@types/chai/index.d.ts": {
+        "version": "c465afa89ac28f74167a2ee7c3c6eb8dd1245c2b3bdaa4704d58d35b932de4b7",
+        "signature": "c465afa89ac28f74167a2ee7c3c6eb8dd1245c2b3bdaa4704d58d35b932de4b7"
+      },
+      "/home/zim/pollerloop/node_modules/@types/chai-as-promised/index.d.ts": {
+        "version": "88e89bb32640978ab8652234e0ecf50a3e7b999a34f8e674a6d4ce37a9c0be07",
+        "signature": "88e89bb32640978ab8652234e0ecf50a3e7b999a34f8e674a6d4ce37a9c0be07"
       },
       "/home/zim/pollerloop/node_modules/@types/events/index.d.ts": {
         "version": "400db42c3a46984118bff14260d60cec580057dc1ab4c2d7310beb643e4f5935",
@@ -492,6 +500,15 @@
         "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/home/zim/pollerloop/node_modules/@types/bluebird/index.d.ts": [
+        "/home/zim/pollerloop/node_modules/@types/node/util.d.ts",
+        "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/home/zim/pollerloop/node_modules/@types/chai/index.d.ts": [
+        "/home/zim/pollerloop/node_modules/@types/node/util.d.ts",
+        "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/home/zim/pollerloop/node_modules/@types/chai-as-promised/index.d.ts": [
+        "/home/zim/pollerloop/node_modules/@types/chai/index.d.ts",
         "/home/zim/pollerloop/node_modules/@types/node/util.d.ts",
         "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1202,6 +1219,15 @@
       "/home/zim/pollerloop/node_modules/@types/sinon/ts3.1/index.d.ts": [
         "/home/zim/pollerloop/node_modules/@types/node/util.d.ts",
         "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/home/zim/pollerloop/node_modules/@types/chai/index.d.ts": [
+        "/home/zim/pollerloop/node_modules/@types/node/util.d.ts",
+        "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/home/zim/pollerloop/node_modules/@types/chai-as-promised/index.d.ts": [
+        "/home/zim/pollerloop/node_modules/@types/chai/index.d.ts",
+        "/home/zim/pollerloop/node_modules/@types/node/util.d.ts",
+        "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -1240,6 +1266,8 @@
       "/home/zim/pollerloop/node_modules/interruptible-timer/dist/index.d.ts",
       "/home/zim/pollerloop/src/index.ts",
       "/home/zim/pollerloop/node_modules/@types/bluebird/index.d.ts",
+      "/home/zim/pollerloop/node_modules/@types/chai/index.d.ts",
+      "/home/zim/pollerloop/node_modules/@types/chai-as-promised/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/events/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/globals.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/assert.d.ts",

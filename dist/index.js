@@ -25,7 +25,6 @@ class Pollerloop {
     }
     start(stopping = () => { }) {
         this.stopping = stopping;
-        this.state = States.CONSTRUCTED;
         this.state = States.STARTED;
         return this.polling((err) => {
             this.state === States.STARTED && this.stop(err);

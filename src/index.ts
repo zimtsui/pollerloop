@@ -33,7 +33,6 @@ class Pollerloop {
 
     start(stopping: Callback = () => { }): Promise<void> {
         this.stopping = stopping;
-        this.state = States.CONSTRUCTED;
         this.state = States.STARTED;
         return this.polling(
             (err?: Error) => {
