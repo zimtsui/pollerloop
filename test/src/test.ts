@@ -1,4 +1,4 @@
-import BPromise from 'bluebird';
+import Bluebird from 'bluebird';
 import test from 'ava';
 import sinon from 'sinon';
 import chai from 'chai';
@@ -76,7 +76,7 @@ test('test manual stop', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(polling);
-    BPromise.delay(1500).then(() => {
+    Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.stop();
     });

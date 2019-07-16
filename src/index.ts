@@ -1,7 +1,7 @@
 import Timer from 'interruptible-timer';
 import assert from 'assert';
 
-interface Callback {
+interface Stopping {
     (err?: Error): void;
 }
 
@@ -22,8 +22,7 @@ enum States {
 class Pollerloop {
     private state = States.CONSTRUCTED;
     private timers = new Set<Timer>();
-    // private stopped: Promise<void> | undefined = undefined;
-    private stopping: Callback | undefined = undefined;
+    private stopping: Stopping | undefined = undefined;
 
     /**
      * @param {Polling} polling - returns a promise fulfilled for auto or manual ending,
@@ -31,21 +30,28 @@ class Pollerloop {
      */
     constructor(private polling: Polling) { }
 
-    start(stopping: Callback = () => { }): Promise<void> {
-        this.stopping = stopping;
+    private pollingStopping = (err?: Error) => {
+        this.state === States.STARTED && this.stop(err);
+    }
+    private pollingIsRunning = () => {
+        return this.state === States.STARTED;
+    }
+    private pollingDelay = (ms: number) => {
+        const timer = new Timer(ms, () => {
+            this.timers.delete(timer);
+        });
+        this.timers.add(timer);
+        return timer.promise.catch(() => { });
+    }
+
+    start(stopping: Stopping = () => { }): Promise<void> {
+        assert(this.state === States.CONSTRUCTED);
         this.state = States.STARTED;
+        this.stopping = stopping;
         return this.polling(
-            (err?: Error) => {
-                this.state === States.STARTED && this.stop(err);
-            },
-            () => this.state === States.STARTED,
-            (ms: number) => {
-                const timer = new Timer(ms, () => {
-                    this.timers.delete(timer);
-                });
-                this.timers.add(timer);
-                return timer.promise.catch(() => { });
-            },
+            this.pollingStopping,
+            this.pollingIsRunning,
+            this.pollingDelay,
         );
     }
 

@@ -19,7 +19,7 @@
     },
     "homepage": "https://github.com/zimtsui/pollerloop#readme",
     "dependencies": {
-        "@types/node": "^12.6.2",
+        "@types/node": "^12.6.3",
         "interruptible-timer": "git+https://github.com/zimtsui/interruptible-timer.git"
     },
     "devDependencies": {

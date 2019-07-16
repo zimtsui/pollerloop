@@ -20,21 +20,26 @@ class Pollerloop {
         this.polling = polling;
         this.state = States.CONSTRUCTED;
         this.timers = new Set();
-        // private stopped: Promise<void> | undefined = undefined;
         this.stopping = undefined;
-    }
-    start(stopping = () => { }) {
-        this.stopping = stopping;
-        this.state = States.STARTED;
-        return this.polling((err) => {
+        this.pollingStopping = (err) => {
             this.state === States.STARTED && this.stop(err);
-        }, () => this.state === States.STARTED, (ms) => {
+        };
+        this.pollingIsRunning = () => {
+            return this.state === States.STARTED;
+        };
+        this.pollingDelay = (ms) => {
             const timer = new interruptible_timer_1.default(ms, () => {
                 this.timers.delete(timer);
             });
             this.timers.add(timer);
             return timer.promise.catch(() => { });
-        });
+        };
+    }
+    start(stopping = () => { }) {
+        assert_1.default(this.state === States.CONSTRUCTED);
+        this.state = States.STARTED;
+        this.stopping = stopping;
+        return this.polling(this.pollingStopping, this.pollingIsRunning, this.pollingDelay);
     }
     stop(err) {
         assert_1.default(this.state === States.STARTED);

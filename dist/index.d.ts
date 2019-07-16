@@ -1,4 +1,4 @@
-interface Callback {
+interface Stopping {
     (err?: Error): void;
 }
 interface Polling {
@@ -14,7 +14,10 @@ declare class Pollerloop {
      * and rejected for exception.
      */
     constructor(polling: Polling);
-    start(stopping?: Callback): Promise<void>;
+    private pollingStopping;
+    private pollingIsRunning;
+    private pollingDelay;
+    start(stopping?: Stopping): Promise<void>;
     stop(err?: Error): void;
 }
 export { Polling };
