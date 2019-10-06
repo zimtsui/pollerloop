@@ -63,5 +63,5 @@ class Pollerloop {
     }
 }
 
-export { Polling };
+export { Polling, Pollerloop };
 export default Pollerloop;

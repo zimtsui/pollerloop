@@ -20,5 +20,5 @@ declare class Pollerloop {
     start(stopping?: Stopping): Promise<void>;
     stop(err?: Error): void;
 }
-export { Polling };
+export { Polling, Pollerloop };
 export default Pollerloop;

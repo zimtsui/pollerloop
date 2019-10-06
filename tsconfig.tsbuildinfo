@@ -134,8 +134,8 @@
         "signature": "1cc0eb9d42a34d44934eccec43741b6281d70631812e59a3bb6af11299341511"
       },
       "/home/zim/pollerloop/src/index.ts": {
-        "version": "6eb8974985816ba02d53f2a4fb56e51ddc21682618021f94cdcea82716bd3754",
-        "signature": "2e8ff5fa07cc1a22f13a5f17fb66f2aa9975d6bc3be3d8fa4873c5b33b93e9de"
+        "version": "ab27055faeebf20c010cf5df19c19a3858e31b3aa810d843c0892ec0783c8ee5",
+        "signature": "465b55401c80f58a38c029b46b7a9efbbfa9c93a54a7b7ee3f32f447270b3438"
       },
       "/home/zim/pollerloop/node_modules/@types/bluebird/index.d.ts": {
         "version": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34",
@@ -1263,6 +1263,7 @@
       "/home/zim/pollerloop/node_modules/typescript/lib/lib.es2019.symbol.d.ts",
       "/home/zim/pollerloop/node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "/home/zim/pollerloop/node_modules/typescript/lib/lib.esnext.bigint.d.ts",
+      "/home/zim/pollerloop/node_modules/interruptible-timer/dist/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/bluebird/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/chai/index.d.ts",
       "/home/zim/pollerloop/node_modules/@types/chai-as-promised/index.d.ts",
@@ -1294,6 +1295,7 @@
       "/home/zim/pollerloop/node_modules/@types/node/punycode.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/querystring.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/readline.d.ts",
+      "/home/zim/pollerloop/node_modules/@types/node/repl.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/stream.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/string_decoder.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/timers.d.ts",
@@ -1303,19 +1305,17 @@
       "/home/zim/pollerloop/node_modules/@types/node/url.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/util.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/v8.d.ts",
-      "/home/zim/pollerloop/node_modules/@types/node/zlib.d.ts",
-      "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts",
-      "/home/zim/pollerloop/node_modules/@types/node/ts3.2/globals.d.ts",
-      "/home/zim/pollerloop/node_modules/@types/minimatch/index.d.ts",
-      "/home/zim/pollerloop/node_modules/@types/sinon/ts3.1/index.d.ts",
-      "/home/zim/pollerloop/node_modules/interruptible-timer/dist/index.d.ts",
-      "/home/zim/pollerloop/src/index.ts",
-      "/home/zim/pollerloop/node_modules/@types/node/repl.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/vm.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/worker_threads.d.ts",
+      "/home/zim/pollerloop/node_modules/@types/node/zlib.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/base.d.ts",
+      "/home/zim/pollerloop/node_modules/@types/node/ts3.2/util.d.ts",
+      "/home/zim/pollerloop/node_modules/@types/node/ts3.2/globals.d.ts",
       "/home/zim/pollerloop/node_modules/@types/node/ts3.2/index.d.ts",
-      "/home/zim/pollerloop/node_modules/@types/glob/index.d.ts"
+      "/home/zim/pollerloop/node_modules/@types/minimatch/index.d.ts",
+      "/home/zim/pollerloop/node_modules/@types/glob/index.d.ts",
+      "/home/zim/pollerloop/node_modules/@types/sinon/ts3.1/index.d.ts",
+      "/home/zim/pollerloop/src/index.ts"
     ]
   },
   "version": "3.5.3"

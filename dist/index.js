@@ -48,5 +48,6 @@ class Pollerloop {
         this.timers.forEach(timer => timer.interrupt());
     }
 }
+exports.Pollerloop = Pollerloop;
 exports.default = Pollerloop;
 //# sourceMappingURL=index.js.map
