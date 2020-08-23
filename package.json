@@ -2,11 +2,12 @@
     "name": "pollerloop",
     "version": "0.0.1",
     "description": "",
+    "type": "module",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "scripts": {
-        "test": "tsc -b ./test/ && ava",
-        "build": "tsc -b"
+        "build": "tsc -b",
+        "test": "tsc -b ./test/ && ava"
     },
     "repository": {
         "type": "git",
@@ -19,22 +20,18 @@
     },
     "homepage": "https://github.com/zimtsui/pollerloop#readme",
     "dependencies": {
-        "@types/node": "^12.6.3",
-        "interruptible-timer": "git+https://github.com/zimtsui/interruptible-timer.git"
+        "interruptible-timer": "git+https://github.com/zimtsui/interruptible-timer.git",
+        "startable": "git+https://github.com/zimtsui/startable.git"
     },
     "devDependencies": {
-        "@types/chai": "^4.1.7",
-        "@types/chai-as-promised": "^7.1.0",
-        "@types/sinon": "^7.0.13",
-        "ava": "^2.2.0",
-        "bluebird": "^3.5.5",
+        "@types/bluebird": "^3.5.32",
+        "@types/chai": "^4.2.12",
+        "@types/chai-as-promised": "^7.1.3",
+        "@types/sinon": "^9.0.5",
+        "ava": "^3.11.1",
+        "bluebird": "^3.7.2",
         "chai": "^4.2.0",
         "chai-as-promised": "^7.1.1",
-        "sinon": "^7.3.2",
-        "typescript": "^3.5.3"
-    },
-    "ava": {
-        "failWithoutAssertions": false,
-        "verbose": true
+        "sinon": "^9.0.3"
     }
 }
