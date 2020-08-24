@@ -20,7 +20,7 @@ class Pollerloop extends Startable {
     }
     async _start() {
         this.shouldBeRunning = true;
-        this.polling = this.poll(this.stop.bind(this), this.shouldBeRunning, this.delay).catch((err) => {
+        this.polling = this.poll(this.stop.bind(this), () => this.shouldBeRunning, this.delay).catch((err) => {
             this.stop(err);
             throw err;
         });

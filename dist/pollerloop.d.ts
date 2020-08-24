@@ -1,9 +1,9 @@
 import Startable from 'startable';
 /**
- * IMPORTANT: always check 'shouldBeRunning' immediately after 'delay()' returns
+ * IMPORTANT: always check 'ifShouldBeRunning' immediately after 'delay()' returns
  */
 interface Poll {
-    (stop: (err?: Error) => Promise<void>, shouldBeRunning: boolean, delay: (ms: number) => Promise<void>): Promise<void>;
+    (stop: (err?: Error) => Promise<void>, ifShouldBeRunning: () => boolean, delay: (ms: number) => Promise<void>): Promise<void>;
 }
 declare class Pollerloop extends Startable {
     private poll;

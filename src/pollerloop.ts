@@ -2,12 +2,12 @@ import Startable from 'startable';
 import Timer from 'interruptible-timer';
 
 /**
- * IMPORTANT: always check 'shouldBeRunning' immediately after 'delay()' returns
+ * IMPORTANT: always check 'ifShouldBeRunning' immediately after 'delay()' returns
  */
 interface Poll {
     (
         stop: (err?: Error) => Promise<void>,
-        shouldBeRunning: boolean,
+        ifShouldBeRunning: () => boolean,
         delay: (ms: number) => Promise<void>,
     ): Promise<void>;
 }
@@ -37,7 +37,7 @@ class Pollerloop extends Startable {
         this.shouldBeRunning = true;
         this.polling = this.poll(
             this.stop.bind(this),
-            this.shouldBeRunning,
+            () => this.shouldBeRunning,
             this.delay,
         ).catch((err: Error) => {
             this.stop(err);

@@ -222,8 +222,8 @@
         "affectsGlobalScope": false
       },
       "./src/pollerloop.ts": {
-        "version": "09935b691afe6c64903a5c3397a07d4009bf0e708c27a0ca050c1abbeb60c16c",
-        "signature": "4759dd2d27ded64d0e027b9e96770382a46b7c3f2c664adfb1e354319289ed35",
+        "version": "e446982e28bad52a439b12934c95a661aded807048c0ee814cb48f4923bd35ca",
+        "signature": "0624fbb5cc0c4111f11d5037880fc417c77ecc5bc334b702e7ddcb60d0c02391",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
