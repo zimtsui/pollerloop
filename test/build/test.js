@@ -33,7 +33,7 @@ test('test 1', async (t) => {
         stop();
     };
     const cb = fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
     await pollerloop.start(cb);
     await pollerloop.polling;
     assert(cb.callCount === 1);
@@ -55,7 +55,7 @@ test('test exception', async (t) => {
         stop();
     };
     const cb = fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
     await pollerloop.start(cb);
     await assert.isRejected(pollerloop.polling, { message: 'haha' });
     assert(cb.args[0][0].message === 'haha');
@@ -71,7 +71,7 @@ test('test manual stop', async (t) => {
         stop();
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.stop();
@@ -97,7 +97,7 @@ test('test 2', async (t) => {
         stop();
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
     await pollerloop.start(cb);
     await pollerloop.polling;
     assert(cb.callCount === 1);
@@ -124,7 +124,7 @@ test('test 3', async (t) => {
         stop();
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
     await pollerloop.start(cb);
     await pollerloop.polling;
     assert(cb.callCount === 1);
@@ -151,7 +151,7 @@ test('test 4', async (t) => {
         stop();
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
     await pollerloop.start(cb);
     await pollerloop.polling;
     assert(cb.callCount === 1);

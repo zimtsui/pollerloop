@@ -1,19 +1,21 @@
 import Startable from 'startable';
-import Timer from 'interruptible-timer';
+import { Timer, } from 'interruptible-timer';
 class Pollerloop extends Startable {
     /**
      * @param {Poll} poll - returns a promise fulfilled for auto or manual ending,
      * and rejected for exception.
      */
-    constructor(poll) {
+    constructor(poll, setTimeout, clearTimeout) {
         super();
         this.poll = poll;
+        this.setTimeout = setTimeout;
+        this.clearTimeout = clearTimeout;
         this.timers = new Set();
         this.shouldBeRunning = false;
         this.delay = (ms) => {
             const timer = new Timer(ms, () => {
                 this.timers.delete(timer);
-            });
+            }, this.setTimeout, this.clearTimeout);
             this.timers.add(timer);
             return timer.promise.catch(() => { });
         };

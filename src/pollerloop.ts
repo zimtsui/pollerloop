@@ -1,5 +1,9 @@
 import Startable from 'startable';
-import Timer from 'interruptible-timer';
+import {
+    Timer,
+    SetTimeout,
+    ClearTimeout,
+} from 'interruptible-timer';
 
 /**
  * IMPORTANT: always check 'ifShouldBeRunning' immediately after 'delay()' returns
@@ -12,8 +16,8 @@ interface Poll {
     ): Promise<void>;
 }
 
-class Pollerloop extends Startable {
-    private timers = new Set<Timer>();
+class Pollerloop<Timeout> extends Startable {
+    private timers = new Set<Timer<Timeout>>();
     private shouldBeRunning = false;
     public polling!: Promise<void>;
 
@@ -21,14 +25,18 @@ class Pollerloop extends Startable {
      * @param {Poll} poll - returns a promise fulfilled for auto or manual ending,
      * and rejected for exception.
      */
-    constructor(private poll: Poll) {
+    constructor(
+        private poll: Poll,
+        private setTimeout: SetTimeout<Timeout>,
+        private clearTimeout: ClearTimeout<Timeout>,
+    ) {
         super();
     }
 
     private delay = (ms: number) => {
         const timer = new Timer(ms, () => {
             this.timers.delete(timer);
-        });
+        }, this.setTimeout, this.clearTimeout);
         this.timers.add(timer);
         return timer.promise.catch(() => { });
     }
