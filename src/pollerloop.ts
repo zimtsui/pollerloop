@@ -65,4 +65,6 @@ export {
     Pollerloop as default,
     Pollerloop,
     Poll,
+    SetTimeout,
+    ClearTimeout,
 }

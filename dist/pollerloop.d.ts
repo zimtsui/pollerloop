@@ -22,4 +22,4 @@ declare class Pollerloop<Timeout> extends Startable {
     protected _start(): Promise<void>;
     protected _stop(err?: Error): Promise<void>;
 }
-export { Pollerloop as default, Pollerloop, Poll, };
+export { Pollerloop as default, Pollerloop, Poll, SetTimeout, ClearTimeout, };
