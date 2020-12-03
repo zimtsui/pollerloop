@@ -12,26 +12,22 @@ class Pollerloop extends Startable {
         this.clearTimeout = clearTimeout;
         this.timers = new Set();
         this.shouldBeRunning = false;
-        this.delay = (ms) => {
-            const timer = new Timer(ms, () => {
-                this.timers.delete(timer);
-            }, this.setTimeout, this.clearTimeout);
-            this.timers.add(timer);
-            return timer.promise.catch(() => { });
-        };
+    }
+    delay(ms) {
+        const timer = new Timer(ms, () => {
+            this.timers.delete(timer);
+        }, this.setTimeout, this.clearTimeout);
+        this.timers.add(timer);
+        return timer.promise.catch(() => { });
     }
     async _start() {
         this.shouldBeRunning = true;
-        this.polling = this.poll(this.stop.bind(this), () => this.shouldBeRunning, this.delay).catch((err) => {
-            this.stop(err);
-            throw err;
-        });
-        this.polling.catch(() => { });
+        this.polling = this.poll(() => this.shouldBeRunning, ms => this.delay(ms)).then(() => this.stop(), err => this.stop(err));
     }
-    async _stop(err) {
+    async _stop() {
         this.shouldBeRunning = false;
         this.timers.forEach(timer => timer.interrupt());
-        await this.polling.catch(() => { });
+        await this.polling;
     }
 }
 export { Pollerloop as default, Pollerloop, };

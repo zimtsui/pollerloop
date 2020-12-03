@@ -10,7 +10,6 @@ import {
  */
 interface Poll {
     (
-        stop: (err?: Error) => Promise<void>,
         ifShouldBeRunning: () => boolean,
         delay: (ms: number) => Promise<void>,
     ): Promise<void>;
@@ -19,7 +18,7 @@ interface Poll {
 class Pollerloop<Timeout> extends Startable {
     private timers = new Set<Timer<Timeout>>();
     private shouldBeRunning = false;
-    public polling!: Promise<void>;
+    private polling?: Promise<void>;
 
     /**
      * @param {Poll} poll - returns a promise fulfilled for auto or manual ending,
@@ -33,7 +32,7 @@ class Pollerloop<Timeout> extends Startable {
         super();
     }
 
-    private delay = (ms: number) => {
+    private delay(ms: number) {
         const timer = new Timer(ms, () => {
             this.timers.delete(timer);
         }, this.setTimeout, this.clearTimeout);
@@ -44,20 +43,18 @@ class Pollerloop<Timeout> extends Startable {
     protected async _start(): Promise<void> {
         this.shouldBeRunning = true;
         this.polling = this.poll(
-            this.stop.bind(this),
             () => this.shouldBeRunning,
-            this.delay,
-        ).catch((err: Error) => {
-            this.stop(err);
-            throw err;
-        });
-        this.polling.catch(() => { });
+            ms => this.delay(ms),
+        ).then(
+            () => this.stop(),
+            err => this.stop(err),
+        );
     }
 
-    protected async _stop(err?: Error): Promise<void> {
+    protected async _stop(): Promise<void> {
         this.shouldBeRunning = false;
         this.timers.forEach(timer => timer.interrupt());
-        await this.polling.catch(() => { });
+        await this.polling;
     }
 }
 
