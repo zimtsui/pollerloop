@@ -29,20 +29,20 @@ const createTik = () => {
 // test 1
 test('test 1', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, delay) => {
+    const poll: Poll = async (shouldBeRunning, sleep) => {
         for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
             t.log(tik());
-            const timer1 = delay(1000);
+            const timer1 = sleep(1000);
             await timer1;
         }
     };
     const cb = fake();
-    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
+    const pollerloop = new Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
-        });
+        }).catch(() => { });
     });
     await pollerloop.start();
     await polling;
@@ -54,10 +54,10 @@ test('test 1', async t => {
 
 test('test exception', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, delay) => {
+    const poll: Poll = async (shouldBeRunning, sleep) => {
         for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
             t.log(tik());
-            const timer1 = delay(1000);
+            const timer1 = sleep(1000);
 
             if (i === 2) {
                 throw new Error('haha');
@@ -67,12 +67,12 @@ test('test exception', async t => {
         }
     };
     const cb = fake();
-    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
+    const pollerloop = new Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
-        });
+        }).catch(() => { });
     });
     await pollerloop.start();
     await assert.isRejected(polling, { message: 'haha' });
@@ -81,22 +81,17 @@ test('test exception', async t => {
 
 
 
-
-
-
-
-
 test('test manual stop', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, delay) => {
+    const poll: Poll = async (shouldBeRunning, sleep) => {
         for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
             t.log(tik());
-            const timer1 = delay(1000);
+            const timer1 = sleep(1000);
             await timer1;
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
+    const pollerloop = new Pollerloop(poll);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.stop();
@@ -105,35 +100,36 @@ test('test manual stop', async t => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
-        });
+        }).catch(() => { });
     });
     await pollerloop.start();
     await polling;
+    t.log(tik());
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
 
 test('test 2', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, delay) => {
+    const poll: Poll = async (shouldBeRunning, sleep) => {
         for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
             t.log(tik());
-            const timer1 = delay(300);
+            const timer1 = sleep(300);
             await timer1;
             if (!shouldBeRunning) break;
 
             t.log(tik());
-            const timer2 = delay(700);
+            const timer2 = sleep(700);
             await timer2;
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
+    const pollerloop = new Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
-        });
+        }).catch(() => { });
     });
     await pollerloop.start();
     await polling;
@@ -143,17 +139,17 @@ test('test 2', async t => {
 
 test('test 3', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, delay) => {
+    const poll: Poll = async (shouldBeRunning, sleep) => {
         for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
-            const timer1 = delay(800);
+            const timer1 = sleep(800);
 
             t.log(tik());
-            const timer2 = delay(300);
+            const timer2 = sleep(300);
             await timer2;
             if (!shouldBeRunning) break;
 
             t.log(tik());
-            const timer3 = delay(700);
+            const timer3 = sleep(700);
             await timer3;
             if (!shouldBeRunning) break;
 
@@ -162,12 +158,12 @@ test('test 3', async t => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
+    const pollerloop = new Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
-        });
+        }).catch(() => { });
     });
     await pollerloop.start();
     await polling;
@@ -177,17 +173,17 @@ test('test 3', async t => {
 
 test('test 4', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, delay) => {
+    const poll: Poll = async (shouldBeRunning, sleep) => {
         for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
-            const timer1 = delay(1000);
+            const timer1 = sleep(1000);
 
             t.log(tik());
-            const timer2 = delay(300);
+            const timer2 = sleep(300);
             await timer2;
             if (!shouldBeRunning) break;
 
             t.log(tik());
-            const timer3 = delay(200);
+            const timer3 = sleep(200);
             await timer3;
             if (!shouldBeRunning) break;
 
@@ -196,12 +192,12 @@ test('test 4', async t => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll, setTimeout, clearTimeout);
+    const pollerloop = new Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
-        });
+        }).catch(() => { });
     });
     await pollerloop.start();
     await polling;

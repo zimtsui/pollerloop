@@ -1,60 +1,55 @@
 import Startable from 'startable';
-import {
-    Timer,
-    SetTimeout,
-    ClearTimeout,
-} from 'interruptible-timer';
+import Timer from 'interruptible-timer';
 
 /**
  * IMPORTANT: always check 'ifShouldBeRunning' immediately after 'delay()' returns
  */
 interface Poll {
     (
-        ifShouldBeRunning: () => boolean,
-        delay: (ms: number) => Promise<void>,
+        shouldBeRunning: () => boolean,
+        sleep: (ms: number) => Promise<void>,
     ): Promise<void>;
 }
 
-class Pollerloop<Timeout> extends Startable {
-    private timers = new Set<Timer<Timeout>>();
+class Pollerloop extends Startable {
+    private timers = new Set<Timer>();
     private shouldBeRunning = false;
     private polling?: Promise<void>;
 
-    /**
-     * @param {Poll} poll - returns a promise fulfilled for auto or manual ending,
-     * and rejected for exception.
-     */
     constructor(
         private poll: Poll,
-        private setTimeout: SetTimeout<Timeout>,
-        private clearTimeout: ClearTimeout<Timeout>,
+        private setTimeout = global.setTimeout,
+        private clearTimeout = global.clearTimeout,
     ) {
         super();
     }
 
-    private delay(ms: number) {
-        const timer = new Timer(ms, () => {
-            this.timers.delete(timer);
-        }, this.setTimeout, this.clearTimeout);
+    private async sleep(ms: number): Promise<void> {
+        const timer = new Timer(ms, this.setTimeout, this.clearTimeout);
         this.timers.add(timer);
-        return timer.promise.catch(() => { });
+        const sleeping = timer.promise.finally(() => {
+            this.timers.delete(timer);
+        });
+        sleeping.catch(() => { });
+        return sleeping;
     }
 
     protected async _start(): Promise<void> {
         this.shouldBeRunning = true;
         this.polling = this.poll(
             () => this.shouldBeRunning,
-            ms => this.delay(ms),
+            ms => this.sleep(ms),
         ).then(
-            () => this.stop(),
-            err => this.stop(err),
+            () => void this.stop().catch(() => { }),
+            err => void this.stop(err).catch(() => { }),
         );
     }
 
     protected async _stop(): Promise<void> {
         this.shouldBeRunning = false;
-        this.timers.forEach(timer => timer.interrupt());
-        await this.polling;
+        // https://stackoverflow.com/questions/28306756/is-it-safe-to-delete-elements-in-a-set-while-iterating-with-for-of
+        this.timers.forEach(timer => void timer.interrupt());
+        await this.polling!;
     }
 }
 
@@ -62,6 +57,4 @@ export {
     Pollerloop as default,
     Pollerloop,
     Poll,
-    SetTimeout,
-    ClearTimeout,
 }
