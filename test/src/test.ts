@@ -29,8 +29,8 @@ const createTik = () => {
 // test 1
 test('test 1', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, sleep) => {
-        for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
+    const poll: Poll = async (sleep) => {
+        for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000);
             await timer1;
@@ -54,10 +54,10 @@ test('test 1', async t => {
 
 test('test exception', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, sleep) => {
-        for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
+    const poll: Poll = async (sleep) => {
+        for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
-            const timer1 = sleep(1000);
+            const timer1 = sleep(1000).catch(() => { });
 
             if (i === 2) {
                 throw new Error('haha');
@@ -83,8 +83,8 @@ test('test exception', async t => {
 
 test('test manual stop', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, sleep) => {
-        for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
+    const poll: Poll = async (sleep) => {
+        for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000);
             await timer1;
@@ -111,12 +111,11 @@ test('test manual stop', async t => {
 
 test('test 2', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, sleep) => {
-        for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
+    const poll: Poll = async (sleep) => {
+        for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(300);
             await timer1;
-            if (!shouldBeRunning) break;
 
             t.log(tik());
             const timer2 = sleep(700);
@@ -139,19 +138,17 @@ test('test 2', async t => {
 
 test('test 3', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, sleep) => {
-        for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
-            const timer1 = sleep(800);
+    const poll: Poll = async (sleep) => {
+        for (let i = 1; i <= 3; i += 1) {
+            const timer1 = sleep(800).catch(() => { });
 
             t.log(tik());
             const timer2 = sleep(300);
             await timer2;
-            if (!shouldBeRunning) break;
 
             t.log(tik());
             const timer3 = sleep(700);
             await timer3;
-            if (!shouldBeRunning) break;
 
             t.log(tik());
             await timer1;
@@ -173,19 +170,17 @@ test('test 3', async t => {
 
 test('test 4', async t => {
     const tik = createTik();
-    const poll: Poll = async (shouldBeRunning, sleep) => {
-        for (let i = 1; i <= 3 && shouldBeRunning; i += 1) {
-            const timer1 = sleep(1000);
+    const poll: Poll = async (sleep) => {
+        for (let i = 1; i <= 3; i += 1) {
+            const timer1 = sleep(1000).catch(() => { });
 
             t.log(tik());
             const timer2 = sleep(300);
             await timer2;
-            if (!shouldBeRunning) break;
 
             t.log(tik());
             const timer3 = sleep(200);
             await timer3;
-            if (!shouldBeRunning) break;
 
             t.log(tik());
             await timer1;
