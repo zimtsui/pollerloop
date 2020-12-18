@@ -1,9 +1,9 @@
 import Startable from 'startable';
 import Timer from 'interruptible-timer';
 class Pollerloop extends Startable {
-    constructor(poll, setTimeout = global.setTimeout, clearTimeout = global.clearTimeout) {
+    constructor(loop, setTimeout = global.setTimeout, clearTimeout = global.clearTimeout) {
         super();
-        this.poll = poll;
+        this.loop = loop;
         this.setTimeout = setTimeout;
         this.clearTimeout = clearTimeout;
         this.timers = new Set();
@@ -16,7 +16,7 @@ class Pollerloop extends Startable {
         });
     }
     async _start() {
-        this.polling = this.poll(ms => this.sleep(ms)).then(() => void this.stop().catch(() => { }), err => void this.stop(err).catch(() => { }));
+        this.polling = this.loop(ms => this.sleep(ms)).then(() => void this.stop().catch(() => { }), err => void this.stop(err).catch(() => { }));
     }
     async _stop() {
         // https://stackoverflow.com/questions/28306756/is-it-safe-to-delete-elements-in-a-set-while-iterating-with-for-of

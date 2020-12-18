@@ -1,7 +1,7 @@
 import Startable from 'startable';
 import Timer from 'interruptible-timer';
 
-interface Poll {
+interface Loop {
     (
         sleep: (ms: number) => Promise<void>,
     ): Promise<void>;
@@ -12,7 +12,7 @@ class Pollerloop extends Startable {
     private polling?: Promise<void>;
 
     constructor(
-        private poll: Poll,
+        private loop: Loop,
         private setTimeout = global.setTimeout,
         private clearTimeout = global.clearTimeout,
     ) {
@@ -28,7 +28,7 @@ class Pollerloop extends Startable {
     }
 
     protected async _start(): Promise<void> {
-        this.polling = this.poll(
+        this.polling = this.loop(
             ms => this.sleep(ms),
         ).then(
             () => void this.stop().catch(() => { }),
@@ -46,5 +46,5 @@ class Pollerloop extends Startable {
 export {
     Pollerloop as default,
     Pollerloop,
-    Poll,
+    Loop,
 }

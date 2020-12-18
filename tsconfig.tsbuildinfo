@@ -457,8 +457,8 @@
         "affectsGlobalScope": false
       },
       "./src/pollerloop.ts": {
-        "version": "8161cd35cd4f1ae0ccd3599c2dd11efae03c942c4a1e86bfd0d109ce75ca8da6",
-        "signature": "a0cedab2e1f70380c322edeb1d0d32011a71261dc930947c8a05b56960ea8701",
+        "version": "3d8656ee9a50dbb83581ef024309cfcd677527e72573a388fc425c7a944e27ac",
+        "signature": "975cbdf418f46e14e976c8d251f31c9909971f81753cc74daa2b0685eadd0b17",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
