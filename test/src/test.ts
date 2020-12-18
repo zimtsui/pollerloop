@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { Pollerloop, Poll } from '../../dist/index';
+import { Pollerloop, Loop } from '../../dist/index';
 import test from 'ava';
 import Bluebird from 'bluebird';
 
@@ -29,7 +29,7 @@ const createTik = () => {
 // test 1
 test('test 1', async t => {
     const tik = createTik();
-    const poll: Poll = async (sleep) => {
+    const poll: Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000);
@@ -38,7 +38,7 @@ test('test 1', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(poll);
-    const polling = new Promise((resolve, reject) => {
+    const polling = new Promise<void>((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
@@ -54,7 +54,7 @@ test('test 1', async t => {
 
 test('test exception', async t => {
     const tik = createTik();
-    const poll: Poll = async (sleep) => {
+    const poll: Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000).catch(() => { });
@@ -68,7 +68,7 @@ test('test exception', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(poll);
-    const polling = new Promise((resolve, reject) => {
+    const polling = new Promise<void>((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
@@ -83,7 +83,7 @@ test('test exception', async t => {
 
 test('test manual stop', async t => {
     const tik = createTik();
-    const poll: Poll = async (sleep) => {
+    const poll: Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000);
@@ -96,7 +96,7 @@ test('test manual stop', async t => {
         t.log('pollerloop.stop()');
         pollerloop.stop();
     });
-    const polling = new Promise((resolve, reject) => {
+    const polling = new Promise<void>((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
@@ -111,7 +111,7 @@ test('test manual stop', async t => {
 
 test('test 2', async t => {
     const tik = createTik();
-    const poll: Poll = async (sleep) => {
+    const poll: Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(300);
@@ -124,7 +124,7 @@ test('test 2', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(poll);
-    const polling = new Promise((resolve, reject) => {
+    const polling = new Promise<void>((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
@@ -138,7 +138,7 @@ test('test 2', async t => {
 
 test('test 3', async t => {
     const tik = createTik();
-    const poll: Poll = async (sleep) => {
+    const poll: Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             const timer1 = sleep(800).catch(() => { });
 
@@ -156,7 +156,7 @@ test('test 3', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(poll);
-    const polling = new Promise((resolve, reject) => {
+    const polling = new Promise<void>((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
@@ -170,7 +170,7 @@ test('test 3', async t => {
 
 test('test 4', async t => {
     const tik = createTik();
-    const poll: Poll = async (sleep) => {
+    const poll: Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             const timer1 = sleep(1000).catch(() => { });
 
@@ -188,7 +188,7 @@ test('test 4', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(poll);
-    const polling = new Promise((resolve, reject) => {
+    const polling = new Promise<void>((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
             if (err) reject(err); else resolve();
