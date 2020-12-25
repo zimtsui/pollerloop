@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import Startable from 'startable';
+import { Startable } from 'startable';
 interface Loop {
     (sleep: (ms: number) => Promise<void>): Promise<void>;
 }
