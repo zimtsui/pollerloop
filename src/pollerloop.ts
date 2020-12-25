@@ -22,8 +22,8 @@ class Pollerloop extends Startable {
 
     constructor(
         private loop: Loop,
-        private setTimeout: SetTimeout = global.setTimeout,
-        private clearTimeout: ClearTimeout = global.clearTimeout,
+        private setTimeout?: SetTimeout,
+        private clearTimeout?: ClearTimeout,
     ) {
         super();
     }

@@ -1,7 +1,7 @@
 import { Startable, } from 'startable';
 import { Timer, } from 'interruptible-timer';
 class Pollerloop extends Startable {
-    constructor(loop, setTimeout = global.setTimeout, clearTimeout = global.clearTimeout) {
+    constructor(loop, setTimeout, clearTimeout) {
         super();
         this.loop = loop;
         this.setTimeout = setTimeout;
