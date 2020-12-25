@@ -1,5 +1,5 @@
-/// <reference types="node" />
 import { Startable } from 'startable';
+import { SetTimeout, ClearTimeout } from 'interruptible-timer';
 interface Loop {
     (sleep: Sleep): Promise<void>;
 }
@@ -12,7 +12,7 @@ declare class Pollerloop extends Startable {
     private clearTimeout;
     private timers;
     private polling?;
-    constructor(loop: Loop, setTimeout?: ((callback: (...args: any[]) => void, ms: number, ...args: any[]) => NodeJS.Timeout) & typeof globalThis.setTimeout, clearTimeout?: ((timeoutId: NodeJS.Timeout) => void) & typeof globalThis.clearTimeout);
+    constructor(loop: Loop, setTimeout?: SetTimeout, clearTimeout?: ClearTimeout);
     private sleep;
     protected _start(): Promise<void>;
     protected _stop(): Promise<void>;

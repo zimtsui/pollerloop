@@ -447,18 +447,13 @@
         "affectsGlobalScope": false
       },
       "./node_modules/interruptible-timer/dist/timer.d.ts": {
-        "version": "c32753a82f6a40bbbe42e99dcae460cd965f241f4b9a6074bc0b6f482792bead",
-        "signature": "c32753a82f6a40bbbe42e99dcae460cd965f241f4b9a6074bc0b6f482792bead",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/interruptible-timer/dist/index.d.ts": {
-        "version": "d1172df359f13a3bc4f49f1cc5053799cd874957d8d05f55f07ad5249d4360f6",
-        "signature": "d1172df359f13a3bc4f49f1cc5053799cd874957d8d05f55f07ad5249d4360f6",
+        "version": "ad70b8d76843e2893a7e08c7169df057b5ef3580f6c3f275e335d220bb399ee1",
+        "signature": "ad70b8d76843e2893a7e08c7169df057b5ef3580f6c3f275e335d220bb399ee1",
         "affectsGlobalScope": false
       },
       "./src/pollerloop.ts": {
-        "version": "bc6156cb38f0f682682be0a6c87d2c9e044ffe4cca109b5b1a4fff10fba0e5ac",
-        "signature": "e66649028425e7462db9c76eaf639227048ae1b124ac982b09b9d203f86aa9cf",
+        "version": "d5398ef06e1e27b0454882a377886b0e0d08dd16f27f234a36a0d4f731cfa5b8",
+        "signature": "2a742bbcb9413cb4702f4d7245144e539fff12fa2a35b9e52edf6c6ba0514bfe",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/bluebird/index.d.ts": {
@@ -827,18 +822,12 @@
       "./node_modules/@types/sinon/index.d.ts": [
         "./node_modules/@types/sinonjs__fake-timers/index.d.ts"
       ],
-      "./node_modules/interruptible-timer/dist/index.d.ts": [
-        "./node_modules/interruptible-timer/dist/timer.d.ts"
-      ],
-      "./node_modules/interruptible-timer/dist/timer.d.ts": [
-        "../../node_modules/@types/node/index.d.ts"
-      ],
       "./node_modules/startable/dist/startable.d.ts": [
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/index.d.ts"
       ],
       "./src/pollerloop.ts": [
-        "./node_modules/interruptible-timer/dist/index.d.ts",
+        "./node_modules/interruptible-timer/dist/timer.d.ts",
         "./node_modules/startable/dist/startable.d.ts"
       ]
     },
@@ -1097,23 +1086,12 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
-      "./node_modules/interruptible-timer/dist/index.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts",
-        "./node_modules/interruptible-timer/dist/timer.d.ts"
-      ],
-      "./node_modules/interruptible-timer/dist/timer.d.ts": [
-        "../../node_modules/@types/node/index.d.ts"
-      ],
       "./node_modules/startable/dist/startable.d.ts": [
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/index.d.ts"
       ],
       "./src/pollerloop.ts": [
+        "./node_modules/interruptible-timer/dist/timer.d.ts",
         "./node_modules/startable/dist/startable.d.ts"
       ],
       "../../../../usr/local/lib/node_modules/typescript/lib/lib.es2015.collection.d.ts": [
@@ -1509,7 +1487,6 @@
       "./node_modules/@types/normalize-package-data/index.d.ts",
       "./node_modules/@types/sinon/index.d.ts",
       "./node_modules/@types/sinonjs__fake-timers/index.d.ts",
-      "./node_modules/interruptible-timer/dist/index.d.ts",
       "./node_modules/interruptible-timer/dist/timer.d.ts",
       "./node_modules/startable/dist/startable.d.ts",
       "./src/pollerloop.ts",

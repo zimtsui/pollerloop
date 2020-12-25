@@ -2,7 +2,11 @@ import {
     Startable,
     LifePeriod,
 } from 'startable';
-import Timer from 'interruptible-timer';
+import {
+    Timer,
+    SetTimeout,
+    ClearTimeout,
+} from 'interruptible-timer';
 
 interface Loop {
     (sleep: Sleep): Promise<void>;
@@ -18,8 +22,8 @@ class Pollerloop extends Startable {
 
     constructor(
         private loop: Loop,
-        private setTimeout = global.setTimeout,
-        private clearTimeout = global.clearTimeout,
+        private setTimeout: SetTimeout = global.setTimeout,
+        private clearTimeout: ClearTimeout = global.clearTimeout,
     ) {
         super();
     }
