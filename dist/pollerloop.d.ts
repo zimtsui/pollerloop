@@ -4,7 +4,7 @@ interface Loop {
     (sleep: Sleep): Promise<void>;
 }
 interface Sleep {
-    (ms?: number): Promise<void>;
+    (ms: number): Promise<void>;
 }
 declare class Pollerloop extends Startable {
     private loop;

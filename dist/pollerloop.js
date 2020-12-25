@@ -10,11 +10,6 @@ class Pollerloop extends Startable {
         this.sleep = (ms) => {
             if (this.lifePeriod === "STOPPING" /* STOPPING */)
                 return Promise.reject('stopping');
-            // nodejs reset ms to 1 if ms == 0
-            // queue as macro task
-            // https://zh.javascript.info/event-loop
-            if (!ms)
-                return new Promise(resolve => void setImmediate(resolve));
             const timer = new Timer(ms, this.setTimeout, this.clearTimeout);
             this.timers.add(timer);
             return timer.promise.finally(() => {
