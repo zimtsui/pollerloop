@@ -457,13 +457,8 @@
         "affectsGlobalScope": false
       },
       "./src/pollerloop.ts": {
-        "version": "e8dcfa70b34035917d4ed1cf34f47bc3df2aa6c7f5164fe81478f8f1e13502aa",
-        "signature": "e40fb9d5f349b4dfd0fae6e867234014bcb27d2ae52ae3e2cce91c4adf0e71a2",
-        "affectsGlobalScope": false
-      },
-      "./src/index.ts": {
-        "version": "aa9fd41b60dc3049c4aa7a280d03ef114745b4ed9e28e92d08a955be1b4170d8",
-        "signature": "8b2fa3e4795c719fc67de5b588249fd0729ed88ac62f47ce9a566bc3bd991734",
+        "version": "d03c6adad23217841feb75fccb0ad1bcf58b63685d8c12393becebf48cba87b2",
+        "signature": "0ef136729f4568c01e2747a85f297641c42e40976474cc0a6092920d3fdd0cc2",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/bluebird/index.d.ts": {
@@ -842,9 +837,6 @@
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/index.d.ts"
       ],
-      "./src/index.ts": [
-        "./src/pollerloop.ts"
-      ],
       "./src/pollerloop.ts": [
         "./node_modules/interruptible-timer/dist/index.d.ts",
         "./node_modules/startable/dist/startable.d.ts"
@@ -1120,9 +1112,6 @@
       "./node_modules/startable/dist/startable.d.ts": [
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/index.d.ts"
-      ],
-      "./src/index.ts": [
-        "./src/pollerloop.ts"
       ],
       "./src/pollerloop.ts": [
         "./node_modules/startable/dist/startable.d.ts"
@@ -1523,7 +1512,6 @@
       "./node_modules/interruptible-timer/dist/index.d.ts",
       "./node_modules/interruptible-timer/dist/timer.d.ts",
       "./node_modules/startable/dist/startable.d.ts",
-      "./src/index.ts",
       "./src/pollerloop.ts",
       "../../../../usr/local/lib/node_modules/typescript/lib/lib.es2015.collection.d.ts",
       "../../../../usr/local/lib/node_modules/typescript/lib/lib.es2015.core.d.ts",

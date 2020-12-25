@@ -1,7 +1,10 @@
 /// <reference types="node" />
 import { Startable } from 'startable';
 interface Loop {
-    (sleep: (ms: number) => Promise<void>): Promise<void>;
+    (sleep: Sleep): Promise<void>;
+}
+interface Sleep {
+    (ms?: number): Promise<void>;
 }
 declare class Pollerloop extends Startable {
     private loop;
@@ -14,4 +17,4 @@ declare class Pollerloop extends Startable {
     protected _start(): Promise<void>;
     protected _stop(): Promise<void>;
 }
-export { Pollerloop as default, Pollerloop, Loop, };
+export { Pollerloop as default, Pollerloop, Loop, Sleep, };

@@ -3,8 +3,8 @@
     "version": "0.0.1",
     "description": "",
     "type": "module",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "main": "./dist/pollerloop.js",
+    "types": "./dist/pollerloop.d.ts",
     "scripts": {
         "build": "tsc -b",
         "test": "tsc -b ./test/ && ava"

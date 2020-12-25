@@ -5,9 +5,11 @@ import {
 import Timer from 'interruptible-timer';
 
 interface Loop {
-    (
-        sleep: (ms: number) => Promise<void>,
-    ): Promise<void>;
+    (sleep: Sleep): Promise<void>;
+}
+
+interface Sleep {
+    (ms?: number): Promise<void>;
 }
 
 class Pollerloop extends Startable {
@@ -22,9 +24,13 @@ class Pollerloop extends Startable {
         super();
     }
 
-    private async sleep(ms: number): Promise<void> {
+    private sleep: Sleep = (ms?: number) => {
         if (this.lifePeriod === LifePeriod.STOPPING)
             return Promise.reject('stopping');
+        // nodejs reset ms to 1 if ms == 0
+        // queue as macro task
+        // https://zh.javascript.info/event-loop
+        if (!ms) return new Promise(resolve => void setImmediate(resolve));
         const timer = new Timer(ms, this.setTimeout, this.clearTimeout);
         this.timers.add(timer);
         return timer.promise.finally(() => {
@@ -52,4 +58,5 @@ export {
     Pollerloop as default,
     Pollerloop,
     Loop,
+    Sleep,
 }
