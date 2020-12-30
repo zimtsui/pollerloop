@@ -12,7 +12,8 @@ declare class Pollerloop extends Startable {
     private clearTimeout?;
     private timers;
     private polling?;
-    constructor(loop: Loop, setTimeout?: SetTimeout | undefined, clearTimeout?: ClearTimeout | undefined);
+    constructor(loop: Loop, setTimeout: SetTimeout, clearTimeout: ClearTimeout);
+    constructor(loop: Loop);
     private sleep;
     protected _start(): Promise<void>;
     protected _stop(): Promise<void>;

@@ -10,7 +10,9 @@ class Pollerloop extends Startable {
         this.sleep = (ms) => {
             if (this.lifePeriod === "STOPPING" /* STOPPING */)
                 return Promise.reject('stopping');
-            const timer = new Timer(ms, this.setTimeout, this.clearTimeout);
+            const timer = this.setTimeout
+                ? new Timer(ms, this.setTimeout, this.clearTimeout)
+                : new Timer(ms);
             this.timers.add(timer);
             return timer.promise.finally(() => {
                 this.timers.delete(timer);

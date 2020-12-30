@@ -21,6 +21,14 @@ class Pollerloop extends Startable {
     private polling?: Promise<void>;
 
     constructor(
+        loop: Loop,
+        setTimeout: SetTimeout,
+        clearTimeout: ClearTimeout,
+    );
+    constructor(
+        loop: Loop,
+    );
+    constructor(
         private loop: Loop,
         private setTimeout?: SetTimeout,
         private clearTimeout?: ClearTimeout,
@@ -31,7 +39,9 @@ class Pollerloop extends Startable {
     private sleep: Sleep = (ms: number) => {
         if (this.lifePeriod === LifePeriod.STOPPING)
             return Promise.reject('stopping');
-        const timer = new Timer(ms, this.setTimeout, this.clearTimeout);
+        const timer = this.setTimeout
+            ? new Timer(ms, this.setTimeout, this.clearTimeout!)
+            : new Timer(ms);
         this.timers.add(timer);
         return timer.promise.finally(() => {
             this.timers.delete(timer);

@@ -447,8 +447,8 @@
         "affectsGlobalScope": false
       },
       "./node_modules/interruptible-timer/dist/timer.d.ts": {
-        "version": "4eda09896c977c89ccf22140f02356cfc58ffe3cfd92d558a85e0106540e18d8",
-        "signature": "4eda09896c977c89ccf22140f02356cfc58ffe3cfd92d558a85e0106540e18d8",
+        "version": "656d3a2c0667f4b452fa069a1dfb5c2d5992a3a8d9cfbbf6ba9995b4d38324be",
+        "signature": "656d3a2c0667f4b452fa069a1dfb5c2d5992a3a8d9cfbbf6ba9995b4d38324be",
         "affectsGlobalScope": false
       },
       "./node_modules/interruptible-timer/dist/web-timer.d.ts": {
@@ -462,8 +462,8 @@
         "affectsGlobalScope": false
       },
       "./src/pollerloop.ts": {
-        "version": "8bd95f7021ce3d7adb678238b9168c6ad7e7359b3521a47e188436bdc9cfb1ee",
-        "signature": "690a5136a09de00bbd8eb5c9e6f71cda78eb362ed621c17258637ef09e0136f8",
+        "version": "c6a0af0add17a32d9d23b933f0b75a990b00bb4e7ea94d5de17cb0875738d8b8",
+        "signature": "6bc9fd69d577ce6c21100d3af9cc8f0217609c5b532d7f7b4693cc3628e00ce0",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/bluebird/index.d.ts": {
