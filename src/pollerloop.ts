@@ -69,4 +69,6 @@ export {
     Pollerloop,
     Loop,
     Sleep,
+    SetTimeout,
+    ClearTimeout,
 }

@@ -18,4 +18,4 @@ declare class Pollerloop extends Startable {
     protected _start(): Promise<void>;
     protected _stop(): Promise<void>;
 }
-export { Pollerloop as default, Pollerloop, Loop, Sleep, };
+export { Pollerloop as default, Pollerloop, Loop, Sleep, SetTimeout, ClearTimeout, };
