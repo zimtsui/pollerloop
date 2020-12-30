@@ -1,7 +1,7 @@
 import { Startable, } from 'startable';
 import { Timer, } from 'interruptible-timer';
 class Pollerloop extends Startable {
-    constructor(loop, setTimeout, clearTimeout) {
+    constructor(loop, setTimeout = global.setTimeout, clearTimeout = global.clearTimeout) {
         super();
         this.loop = loop;
         this.setTimeout = setTimeout;
@@ -10,9 +10,7 @@ class Pollerloop extends Startable {
         this.sleep = (ms) => {
             if (this.lifePeriod === "STOPPING" /* STOPPING */)
                 return Promise.reject('stopping');
-            const timer = this.setTimeout
-                ? new Timer(ms, this.setTimeout, this.clearTimeout)
-                : new Timer(ms);
+            const timer = new Timer(ms, this.setTimeout, this.clearTimeout);
             this.timers.add(timer);
             return timer.promise.finally(() => {
                 this.timers.delete(timer);

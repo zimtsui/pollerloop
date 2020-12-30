@@ -8,8 +8,8 @@ interface Sleep {
 }
 declare class Pollerloop extends Startable {
     private loop;
-    private setTimeout?;
-    private clearTimeout?;
+    private setTimeout;
+    private clearTimeout;
     private timers;
     private polling?;
     constructor(loop: Loop, setTimeout: SetTimeout, clearTimeout: ClearTimeout);
