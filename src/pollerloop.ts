@@ -6,6 +6,7 @@ import {
     Timer,
     SetTimeout,
     ClearTimeout,
+    WebTimer,
 } from 'interruptible-timer';
 
 interface Loop {
@@ -30,8 +31,8 @@ class Pollerloop extends Startable {
     );
     constructor(
         private loop: Loop,
-        private setTimeout: SetTimeout = global.setTimeout,
-        private clearTimeout: ClearTimeout = global.clearTimeout,
+        private setTimeout: SetTimeout = WebTimer.setTimeout,
+        private clearTimeout: ClearTimeout = WebTimer.clearTimeout,
     ) {
         super();
     }
