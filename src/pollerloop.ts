@@ -48,12 +48,8 @@ class Pollerloop extends Startable {
     }
 
     protected async _start(): Promise<void> {
-        this.polling = this.loop(
-            ms => this.sleep(ms),
-        ).then(
-            () => void this.stop().catch(() => { }),
-            err => void this.stop(err).catch(() => { }),
-        );
+        this.polling = this.loop(this.sleep)
+            .then(() => this.starp(), this.starp);
     }
 
     protected async _stop(): Promise<void> {
