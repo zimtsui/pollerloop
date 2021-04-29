@@ -6,8 +6,8 @@ import {
     Timer,
     SetTimeout,
     ClearTimeout,
-    WebTimer,
 } from 'interruptible-timer';
+import * as WebTimer from 'web-timer';
 
 interface Loop {
     (sleep: Sleep): Promise<void>;

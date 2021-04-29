@@ -1,5 +1,6 @@
 import { Startable, } from 'startable';
-import { Timer, WebTimer, } from 'interruptible-timer';
+import { Timer, } from 'interruptible-timer';
+import * as WebTimer from 'web-timer';
 class Pollerloop extends Startable {
     constructor(loop, setTimeout = WebTimer.setTimeout, clearTimeout = WebTimer.clearTimeout) {
         super();
