@@ -21,7 +21,7 @@
     "homepage": "https://github.com/zimtsui/pollerloop#readme",
     "dependencies": {
         "interruptible-timer": "git+https://gitee.com/zimtsui/interruptible-timer.git",
-        "startable": "git+https://gitee.com/zimtsui/startable.git",
+        "startable": "https://gitee.com/zimtsui/startable.git",
         "web-timer": "https://gitee.com/zimtsui/web-timer.git"
     },
     "devDependencies": {
