@@ -1,9 +1,11 @@
-import sinon from 'sinon';
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import { Pollerloop } from '../../dist/index';
-import test from 'ava';
-import Bluebird from 'bluebird';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const sinon = require("sinon");
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
+const __1 = require("../..");
+const ava_1 = require("ava");
+const Bluebird = require("bluebird");
 chai.use(chaiAsPromised);
 const { assert } = chai;
 const { fake } = sinon;
@@ -22,7 +24,7 @@ const createTik = () => {
     };
 };
 // test 1
-test('test 1', async (t) => {
+ava_1.default('test 1', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -32,7 +34,7 @@ test('test 1', async (t) => {
         }
     };
     const cb = fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
@@ -47,7 +49,7 @@ test('test 1', async (t) => {
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
-test('test exception', async (t) => {
+ava_1.default('test exception', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -60,7 +62,7 @@ test('test exception', async (t) => {
         }
     };
     const cb = fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
@@ -74,7 +76,7 @@ test('test exception', async (t) => {
     await assert.isRejected(polling, { message: 'haha' });
     assert(cb.args[0][0].message === 'haha');
 });
-test('test manual stop', async (t) => {
+ava_1.default('test manual stop', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -84,7 +86,7 @@ test('test manual stop', async (t) => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(poll);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.stop();
@@ -104,7 +106,7 @@ test('test manual stop', async (t) => {
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
-test('test 2', async (t) => {
+ava_1.default('test 2', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -117,7 +119,7 @@ test('test 2', async (t) => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
@@ -132,7 +134,7 @@ test('test 2', async (t) => {
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
-test('test 3', async (t) => {
+ava_1.default('test 3', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -148,7 +150,7 @@ test('test 3', async (t) => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
@@ -163,7 +165,7 @@ test('test 3', async (t) => {
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
-test('test 4', async (t) => {
+ava_1.default('test 4', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -179,7 +181,7 @@ test('test 4', async (t) => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(poll);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);

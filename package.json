@@ -2,12 +2,11 @@
     "name": "pollerloop",
     "version": "0.0.1",
     "description": "",
-    "type": "module",
-    "main": "./dist/pollerloop.js",
-    "types": "./dist/pollerloop.d.ts",
+    "main": "./build/pollerloop.js",
+    "types": "./build/pollerloop.d.ts",
     "scripts": {
-        "build": "tsc -b ./src",
-        "test": "tsc -b ./test/src && ava"
+        "build": "tsc -b ./src/tsconfig.json",
+        "test": "tsc -b ./test/src/tsconfig.json && ava"
     },
     "repository": {
         "type": "git",

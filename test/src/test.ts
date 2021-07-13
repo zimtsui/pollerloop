@@ -1,9 +1,9 @@
-import sinon from 'sinon';
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import { Pollerloop, Loop } from '../../dist/index';
+import sinon = require('sinon');
+import chai = require('chai');
+import chaiAsPromised = require('chai-as-promised');
+import { Pollerloop, Loop } from '../..';
 import test from 'ava';
-import Bluebird from 'bluebird';
+import Bluebird = require('bluebird');
 
 chai.use(chaiAsPromised);
 const { assert } = chai;
