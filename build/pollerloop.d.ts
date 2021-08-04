@@ -1,5 +1,5 @@
 import { Startable } from 'startable';
-import { SetTimeout, ClearTimeout } from 'timeout';
+import { SetTimeout, ClearTimeout } from 'cancellable-sleep';
 interface Loop {
     (sleep: Sleep): Promise<void>;
 }

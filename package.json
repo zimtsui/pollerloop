@@ -20,8 +20,7 @@
     "homepage": "https://github.com/zimtsui/pollerloop#readme",
     "dependencies": {
         "cancellable-sleep": "github:zimtsui/cancellable-sleep",
-        "startable": "github:zimtsui/startable",
-        "timeout": "github:zimtsui/timeout"
+        "startable": "github:zimtsui/startable"
     },
     "devDependencies": {
         "@types/bluebird": "^3.5.32",

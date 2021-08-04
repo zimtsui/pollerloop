@@ -1,15 +1,12 @@
 import {
     Startable,
-    LifePeriod,
+    ReadyState,
 } from 'startable';
 import {
     Cancellable,
-} from 'cancellable-sleep';
-import {
     SetTimeout,
-    ClearTimeout,
-} from 'timeout';
-import * as Timeout from 'timeout';
+    ClearTimeout
+} from 'cancellable-sleep';
 
 interface Loop {
     (sleep: Sleep): Promise<void>;
@@ -33,14 +30,14 @@ class Pollerloop extends Startable {
     );
     constructor(
         private loop: Loop,
-        private setTimeout = Timeout.setTimeout,
-        private clearTimeout = Timeout.clearTimeout,
+        private setTimeout = <SetTimeout<any>>globalThis.setTimeout,
+        private clearTimeout = <ClearTimeout<any>>globalThis.clearTimeout,
     ) {
         super();
     }
 
     private sleep: Sleep = (ms: number) => {
-        if (this.lifePeriod === LifePeriod.STOPPING)
+        if (this.readyState === ReadyState.STOPPING)
             return Promise.reject('stopping');
         const timer = new Cancellable(ms, this.setTimeout, this.clearTimeout);
         this.timers.add(timer);

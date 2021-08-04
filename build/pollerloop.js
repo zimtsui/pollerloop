@@ -3,16 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pollerloop = exports.default = void 0;
 const startable_1 = require("startable");
 const cancellable_sleep_1 = require("cancellable-sleep");
-const Timeout = require("timeout");
 class Pollerloop extends startable_1.Startable {
-    constructor(loop, setTimeout = Timeout.setTimeout, clearTimeout = Timeout.clearTimeout) {
+    constructor(loop, setTimeout = globalThis.setTimeout, clearTimeout = globalThis.clearTimeout) {
         super();
         this.loop = loop;
         this.setTimeout = setTimeout;
         this.clearTimeout = clearTimeout;
         this.timers = new Set();
         this.sleep = (ms) => {
-            if (this.lifePeriod === "STOPPING" /* STOPPING */)
+            if (this.readyState === "STOPPING" /* STOPPING */)
                 return Promise.reject('stopping');
             const timer = new cancellable_sleep_1.Cancellable(ms, this.setTimeout, this.clearTimeout);
             this.timers.add(timer);
