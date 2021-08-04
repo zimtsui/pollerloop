@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pollerloop = exports.default = void 0;
 const startable_1 = require("startable");
-const interruptible_timer_1 = require("interruptible-timer");
-const WebTimer = require("web-timer");
+const cancellable_sleep_1 = require("cancellable-sleep");
+const Timeout = require("timeout");
 class Pollerloop extends startable_1.Startable {
-    constructor(loop, setTimeout = WebTimer.setTimeout, clearTimeout = WebTimer.clearTimeout) {
+    constructor(loop, setTimeout = Timeout.setTimeout, clearTimeout = Timeout.clearTimeout) {
         super();
         this.loop = loop;
         this.setTimeout = setTimeout;
@@ -14,9 +14,9 @@ class Pollerloop extends startable_1.Startable {
         this.sleep = (ms) => {
             if (this.lifePeriod === "STOPPING" /* STOPPING */)
                 return Promise.reject('stopping');
-            const timer = new interruptible_timer_1.Timer(ms, this.setTimeout, this.clearTimeout);
+            const timer = new cancellable_sleep_1.Cancellable(ms, this.setTimeout, this.clearTimeout);
             this.timers.add(timer);
-            return timer.promise.finally(() => {
+            return timer.finally(() => {
                 this.timers.delete(timer);
             });
         };
@@ -27,7 +27,7 @@ class Pollerloop extends startable_1.Startable {
     }
     async _stop() {
         // https://stackoverflow.com/questions/28306756/is-it-safe-to-delete-elements-in-a-set-while-iterating-with-for-of
-        this.timers.forEach(timer => void timer.interrupt());
+        this.timers.forEach(timer => void timer.cancel());
         await this.polling;
     }
 }

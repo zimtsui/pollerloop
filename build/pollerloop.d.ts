@@ -1,5 +1,5 @@
 import { Startable } from 'startable';
-import { SetTimeout, ClearTimeout } from 'interruptible-timer';
+import { SetTimeout, ClearTimeout } from 'timeout';
 interface Loop {
     (sleep: Sleep): Promise<void>;
 }
@@ -12,7 +12,7 @@ declare class Pollerloop extends Startable {
     private clearTimeout;
     private timers;
     private polling?;
-    constructor(loop: Loop, setTimeout: SetTimeout, clearTimeout: ClearTimeout);
+    constructor(loop: Loop, setTimeout: SetTimeout<any>, clearTimeout: ClearTimeout<any>);
     constructor(loop: Loop);
     private sleep;
     protected _start(): Promise<void>;

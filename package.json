@@ -19,9 +19,9 @@
     },
     "homepage": "https://github.com/zimtsui/pollerloop#readme",
     "dependencies": {
-        "interruptible-timer": "git+https://gitee.com/zimtsui/interruptible-timer.git",
-        "startable": "https://gitee.com/zimtsui/startable.git",
-        "web-timer": "https://gitee.com/zimtsui/web-timer.git"
+        "cancellable-sleep": "github:zimtsui/cancellable-sleep",
+        "startable": "github:zimtsui/startable",
+        "timeout": "github:zimtsui/timeout"
     },
     "devDependencies": {
         "@types/bluebird": "^3.5.32",

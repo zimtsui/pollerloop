@@ -3,11 +3,13 @@ import {
     LifePeriod,
 } from 'startable';
 import {
-    Timer,
+    Cancellable,
+} from 'cancellable-sleep';
+import {
     SetTimeout,
     ClearTimeout,
-} from 'interruptible-timer';
-import * as WebTimer from 'web-timer';
+} from 'timeout';
+import * as Timeout from 'timeout';
 
 interface Loop {
     (sleep: Sleep): Promise<void>;
@@ -18,21 +20,21 @@ interface Sleep {
 }
 
 class Pollerloop extends Startable {
-    private timers = new Set<Timer>();
+    private timers = new Set<Cancellable>();
     private polling?: Promise<void>;
 
     constructor(
         loop: Loop,
-        setTimeout: SetTimeout,
-        clearTimeout: ClearTimeout,
+        setTimeout: SetTimeout<any>,
+        clearTimeout: ClearTimeout<any>,
     );
     constructor(
         loop: Loop,
     );
     constructor(
         private loop: Loop,
-        private setTimeout: SetTimeout = WebTimer.setTimeout,
-        private clearTimeout: ClearTimeout = WebTimer.clearTimeout,
+        private setTimeout = Timeout.setTimeout,
+        private clearTimeout = Timeout.clearTimeout,
     ) {
         super();
     }
@@ -40,9 +42,9 @@ class Pollerloop extends Startable {
     private sleep: Sleep = (ms: number) => {
         if (this.lifePeriod === LifePeriod.STOPPING)
             return Promise.reject('stopping');
-        const timer = new Timer(ms, this.setTimeout, this.clearTimeout);
+        const timer = new Cancellable(ms, this.setTimeout, this.clearTimeout);
         this.timers.add(timer);
-        return timer.promise.finally(() => {
+        return timer.finally(() => {
             this.timers.delete(timer);
         });
     }
@@ -54,7 +56,7 @@ class Pollerloop extends Startable {
 
     protected async _stop(): Promise<void> {
         // https://stackoverflow.com/questions/28306756/is-it-safe-to-delete-elements-in-a-set-while-iterating-with-for-of
-        this.timers.forEach(timer => void timer.interrupt());
+        this.timers.forEach(timer => void timer.cancel());
         await this.polling!;
     }
 }
