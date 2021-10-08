@@ -5,7 +5,7 @@ import {
 import {
     Cancellable,
     SetTimeout,
-    ClearTimeout
+    ClearTimeout,
 } from 'cancellable-sleep';
 
 interface Loop {
@@ -30,8 +30,8 @@ class Pollerloop extends Startable {
     );
     constructor(
         private loop: Loop,
-        private setTimeout = <SetTimeout<any>>globalThis.setTimeout,
-        private clearTimeout = <ClearTimeout<any>>globalThis.clearTimeout,
+        private setTimeout = globalThis.setTimeout,
+        private clearTimeout = globalThis.clearTimeout,
     ) {
         super();
     }
