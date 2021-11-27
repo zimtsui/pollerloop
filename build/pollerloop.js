@@ -20,11 +20,11 @@ class Pollerloop extends startable_1.Startable {
             });
         };
     }
-    async _start() {
+    async Startable$start() {
         this.polling = this.loop(this.sleep)
             .then(() => this.stop(), this.stop);
     }
-    async _stop() {
+    async Startable$stop() {
         // https://stackoverflow.com/questions/28306756/is-it-safe-to-delete-elements-in-a-set-while-iterating-with-for-of
         this.timers.forEach(timer => void timer.cancel());
         await this.polling;

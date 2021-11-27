@@ -24,7 +24,7 @@ const createTik = () => {
     };
 };
 // test 1
-ava_1.default('test 1', async (t) => {
+(0, ava_1.default)('test 1', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -49,7 +49,7 @@ ava_1.default('test 1', async (t) => {
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
-ava_1.default('test exception', async (t) => {
+(0, ava_1.default)('test exception', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -76,7 +76,7 @@ ava_1.default('test exception', async (t) => {
     await assert.isRejected(polling, { message: 'haha' });
     assert(cb.args[0][0].message === 'haha');
 });
-ava_1.default('test manual stop', async (t) => {
+(0, ava_1.default)('test manual stop', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -106,7 +106,7 @@ ava_1.default('test manual stop', async (t) => {
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
-ava_1.default('test 2', async (t) => {
+(0, ava_1.default)('test 2', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -134,7 +134,7 @@ ava_1.default('test 2', async (t) => {
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
-ava_1.default('test 3', async (t) => {
+(0, ava_1.default)('test 3', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
@@ -165,7 +165,7 @@ ava_1.default('test 3', async (t) => {
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
-ava_1.default('test 4', async (t) => {
+(0, ava_1.default)('test 4', async (t) => {
     const tik = createTik();
     const poll = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
