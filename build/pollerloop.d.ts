@@ -15,7 +15,7 @@ declare class Pollerloop extends Startable {
     constructor(loop: Loop, setTimeout: SetTimeout<any>, clearTimeout: ClearTimeout<any>);
     constructor(loop: Loop);
     private sleep;
-    protected Startable$start(): Promise<void>;
-    protected Startable$stop(): Promise<void>;
+    protected rawStart(): Promise<void>;
+    protected rawStop(): Promise<void>;
 }
 export { Pollerloop as default, Pollerloop, Loop, Sleep, SetTimeout, ClearTimeout, };
