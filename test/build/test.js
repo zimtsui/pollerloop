@@ -26,7 +26,7 @@ const createTik = () => {
 // test 1
 (0, ava_1.default)('test 1', async (t) => {
     const tik = createTik();
-    const poll = async (sleep) => {
+    const loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000);
@@ -34,7 +34,7 @@ const createTik = () => {
         }
     };
     const cb = fake();
-    const pollerloop = new __1.Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(loop);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
@@ -51,7 +51,7 @@ const createTik = () => {
 });
 (0, ava_1.default)('test exception', async (t) => {
     const tik = createTik();
-    const poll = async (sleep) => {
+    const loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000).catch(() => { });
@@ -62,7 +62,7 @@ const createTik = () => {
         }
     };
     const cb = fake();
-    const pollerloop = new __1.Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(loop);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
@@ -78,7 +78,7 @@ const createTik = () => {
 });
 (0, ava_1.default)('test manual stop', async (t) => {
     const tik = createTik();
-    const poll = async (sleep) => {
+    const loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000);
@@ -86,7 +86,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(loop);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.stop();
@@ -108,7 +108,7 @@ const createTik = () => {
 });
 (0, ava_1.default)('test 2', async (t) => {
     const tik = createTik();
-    const poll = async (sleep) => {
+    const loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(300);
@@ -119,7 +119,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(loop);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
@@ -136,7 +136,7 @@ const createTik = () => {
 });
 (0, ava_1.default)('test 3', async (t) => {
     const tik = createTik();
-    const poll = async (sleep) => {
+    const loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             const timer1 = sleep(800).catch(() => { });
             t.log(tik());
@@ -150,7 +150,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(loop);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
@@ -167,7 +167,7 @@ const createTik = () => {
 });
 (0, ava_1.default)('test 4', async (t) => {
     const tik = createTik();
-    const poll = async (sleep) => {
+    const loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             const timer1 = sleep(1000).catch(() => { });
             t.log(tik());
@@ -181,7 +181,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(poll);
+    const pollerloop = new __1.Pollerloop(loop);
     const polling = new Promise((resolve, reject) => {
         pollerloop.start(err => {
             cb(err);
