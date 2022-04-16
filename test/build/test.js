@@ -35,17 +35,10 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop);
-    const polling = new Promise((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err)
-                reject(err);
-            else
-                resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -63,17 +56,10 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop);
-    const polling = new Promise((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err)
-                reject(err);
-            else
-                resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await assert.isRejected(polling, { message: 'haha' });
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await assert.isRejected(pollerloop.getLoopPromise(), { message: 'haha' });
     assert(cb.args[0][0].message === 'haha');
 });
 (0, ava_1.default)('test manual stop', async (t) => {
@@ -89,19 +75,12 @@ const createTik = () => {
     const pollerloop = new __1.Pollerloop(loop);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
-        pollerloop.stop();
+        pollerloop.startable.stop();
     });
-    const polling = new Promise((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err)
-                reject(err);
-            else
-                resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await assert.isRejected(pollerloop.getLoopPromise(), new __1.Cancelled().message);
     t.log(tik());
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
@@ -120,17 +99,10 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop);
-    const polling = new Promise((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err)
-                reject(err);
-            else
-                resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
@@ -151,17 +123,10 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop);
-    const polling = new Promise((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err)
-                reject(err);
-            else
-                resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
@@ -182,17 +147,10 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop);
-    const polling = new Promise((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err)
-                reject(err);
-            else
-                resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });

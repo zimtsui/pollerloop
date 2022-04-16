@@ -19,6 +19,8 @@
     },
     "homepage": "https://github.com/zimtsui/pollerloop#readme",
     "dependencies": {
+        "@types/assert": "^1.5.6",
+        "assert": "^2.0.0",
         "cancellable-sleep": "github:zimtsui/cancellable-sleep",
         "startable": "github:zimtsui/startable"
     },

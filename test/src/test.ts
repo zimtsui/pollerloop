@@ -1,7 +1,11 @@
 import sinon = require('sinon');
 import chai = require('chai');
 import chaiAsPromised = require('chai-as-promised');
-import { Pollerloop, Loop } from '../..';
+import {
+    Pollerloop,
+    Loop,
+    Cancelled,
+} from '../..';
 import test from 'ava';
 import Bluebird = require('bluebird');
 
@@ -38,14 +42,10 @@ test('test 1', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(loop);
-    const polling = new Promise<void>((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err) reject(err); else resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -68,14 +68,10 @@ test('test exception', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(loop);
-    const polling = new Promise<void>((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err) reject(err); else resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await assert.isRejected(polling, { message: 'haha' });
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await assert.isRejected(pollerloop.getLoopPromise(), { message: 'haha' });
     assert(cb.args[0][0].message === 'haha');
 });
 
@@ -94,16 +90,12 @@ test('test manual stop', async t => {
     const pollerloop = new Pollerloop(loop);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
-        pollerloop.stop();
+        pollerloop.startable.stop();
     });
-    const polling = new Promise<void>((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err) reject(err); else resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await assert.isRejected(pollerloop.getLoopPromise(), new Cancelled().message);
     t.log(tik());
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
@@ -124,14 +116,10 @@ test('test 2', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop);
-    const polling = new Promise<void>((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err) reject(err); else resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
@@ -156,14 +144,10 @@ test('test 3', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop);
-    const polling = new Promise<void>((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err) reject(err); else resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });
@@ -188,14 +172,10 @@ test('test 4', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop);
-    const polling = new Promise<void>((resolve, reject) => {
-        pollerloop.start(err => {
-            cb(err);
-            if (err) reject(err); else resolve();
-        }).catch(() => { });
-    });
-    await pollerloop.start();
-    await polling;
+    pollerloop.startable.start(err => {
+        cb(err);
+    }).catch(() => { });
+    await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
     assert.isUndefined(cb.args[0][0]);
 });

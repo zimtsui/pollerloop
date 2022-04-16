@@ -1,21 +1,22 @@
-import { Startable } from 'startable';
-import { SetTimeout, ClearTimeout } from 'cancellable-sleep';
-interface Loop {
+import { SetTimeout, ClearTimeout, Cancelled } from 'cancellable-sleep';
+export interface Loop {
     (sleep: Sleep): Promise<void>;
 }
-interface Sleep {
+export interface Sleep {
     (ms: number): Promise<void>;
 }
-declare class Pollerloop extends Startable {
+export declare class Pollerloop<Timeout> {
     private loop;
     private setTimeout;
     private clearTimeout;
     private timers;
-    private polling?;
-    constructor(loop: Loop, setTimeout: SetTimeout<any>, clearTimeout: ClearTimeout<any>);
+    private loopPromise?;
+    startable: import("startable/build/startable-like").StartableLike;
+    constructor(loop: Loop, setTimeout: SetTimeout<Timeout>, clearTimeout: ClearTimeout<Timeout>);
     constructor(loop: Loop);
     private sleep;
-    protected Startable$rawStart(): Promise<void>;
-    protected Startable$rawStop(): Promise<void>;
+    protected start(): Promise<void>;
+    getLoopPromise(): Promise<void>;
+    protected stop(): Promise<void>;
 }
-export { Pollerloop as default, Pollerloop, Loop, Sleep, SetTimeout, ClearTimeout, };
+export { SetTimeout, ClearTimeout, Cancelled, };
