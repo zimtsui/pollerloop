@@ -15,10 +15,10 @@ class Pollerloop {
         this.timers = new timers_1.Timers();
         this.loopPromise = new loop_promise_1.LoopPromise();
         this.startable = new startable_1.Startable(() => this.start(), () => this.stop());
-        this.sleep = (time) => {
+        this.sleep = (ms) => {
             assert(this.startable.getReadyState() === "STARTING" /* STARTING */ ||
                 this.startable.getReadyState() === "STARTED" /* STARTED */, new InvalidState(this.startable.getReadyState()));
-            const timer = new cancellable_1.Cancellable(time, this.engine);
+            const timer = new cancellable_1.Cancellable(ms, this.engine);
             this.timers.add(timer);
             return timer;
         };

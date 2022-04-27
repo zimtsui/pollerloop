@@ -27,14 +27,14 @@ export class Pollerloop {
 		private engine: TimeEngineLike,
 	) { }
 
-	private sleep: Sleep = (time: number): Cancellable => {
+	private sleep: Sleep = (ms: number): Cancellable => {
 		assert(
 			this.startable.getReadyState() === ReadyState.STARTING ||
 			this.startable.getReadyState() === ReadyState.STARTED,
 			new InvalidState(this.startable.getReadyState()),
 		);
 		const timer = new Cancellable(
-			time,
+			ms,
 			this.engine,
 		);
 		this.timers.add(timer);
