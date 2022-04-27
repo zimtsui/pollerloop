@@ -6,9 +6,11 @@ const chaiAsPromised = require("chai-as-promised");
 const __1 = require("../..");
 const ava_1 = require("ava");
 const Bluebird = require("bluebird");
+const timeout_1 = require("timeout");
 chai.use(chaiAsPromised);
 const { assert } = chai;
 const { fake } = sinon;
+const engine = new timeout_1.TimeEngine();
 const createTik = () => {
     let time;
     return () => {
@@ -34,7 +36,7 @@ const createTik = () => {
         }
     };
     const cb = fake();
-    const pollerloop = new __1.Pollerloop(loop);
+    const pollerloop = new __1.Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
@@ -55,7 +57,7 @@ const createTik = () => {
         }
     };
     const cb = fake();
-    const pollerloop = new __1.Pollerloop(loop);
+    const pollerloop = new __1.Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
@@ -72,7 +74,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(loop);
+    const pollerloop = new __1.Pollerloop(loop, engine);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.startable.stop();
@@ -98,7 +100,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(loop);
+    const pollerloop = new __1.Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
@@ -122,7 +124,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(loop);
+    const pollerloop = new __1.Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
@@ -146,7 +148,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(loop);
+    const pollerloop = new __1.Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });

@@ -8,11 +8,12 @@ import {
 } from '../..';
 import test from 'ava';
 import Bluebird = require('bluebird');
+import { TimeEngine } from 'timeout';
 
 chai.use(chaiAsPromised);
 const { assert } = chai;
 const { fake } = sinon;
-
+const engine = new TimeEngine();
 
 
 const createTik = () => {
@@ -41,7 +42,7 @@ test('test 1', async t => {
         }
     };
     const cb = fake();
-    const pollerloop = new Pollerloop(loop);
+    const pollerloop = new Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
@@ -67,7 +68,7 @@ test('test exception', async t => {
         }
     };
     const cb = fake();
-    const pollerloop = new Pollerloop(loop);
+    const pollerloop = new Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
@@ -87,7 +88,7 @@ test('test manual stop', async t => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(loop);
+    const pollerloop = new Pollerloop(loop, engine);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.startable.stop();
@@ -115,7 +116,7 @@ test('test 2', async t => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(loop);
+    const pollerloop = new Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
@@ -143,7 +144,7 @@ test('test 3', async t => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(loop);
+    const pollerloop = new Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
@@ -171,7 +172,7 @@ test('test 4', async t => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new Pollerloop(loop);
+    const pollerloop = new Pollerloop(loop, engine);
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });

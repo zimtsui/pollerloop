@@ -4,75 +4,82 @@ import {
 } from 'startable';
 import {
 	Cancellable,
-	sleep,
-	SetTimeout,
-	ClearTimeout,
+	TimeEngineLike,
 	Cancelled,
-} from 'cancellable-sleep';
+} from 'cancellable';
+import { Timers } from './timers';
+import { LoopPromise } from './loop-promise';
 import assert = require('assert');
+
+
+
+export class Pollerloop {
+	private timers = new Timers();
+	private loopPromise = new LoopPromise();
+
+	public startable = new Startable(
+		() => this.start(),
+		() => this.stop(),
+	);
+
+	public constructor(
+		private loop: Loop,
+		private engine: TimeEngineLike,
+	) { }
+
+	private sleep: Sleep = (time: number): Cancellable => {
+		assert(
+			this.startable.getReadyState() === ReadyState.STARTING ||
+			this.startable.getReadyState() === ReadyState.STARTED,
+			new InvalidState(this.startable.getReadyState()),
+		);
+		const timer = new Cancellable(
+			time,
+			this.engine,
+		);
+		this.timers.add(timer);
+		return timer;
+	}
+
+	protected async start(): Promise<void> {
+		this.loop(this.sleep).then(
+			() => this.loopPromise.resolve(),
+			(err: Error) => this.loopPromise.reject(err),
+		);
+		this.loopPromise.then(
+			() => this.startable.starp(),
+			err => this.startable.starp(err),
+		);
+	}
+
+	public getLoopPromise(): Promise<void> {
+		return this.loopPromise;
+	}
+
+	protected async stop(): Promise<void> {
+		this.timers.clear();
+		await this.loopPromise.catch(() => { });
+	}
+}
 
 export interface Loop {
 	(sleep: Sleep): Promise<void>;
 }
 
 export interface Sleep {
-	(ms: number): Promise<void>;
+	(ms: number): Cancellable;
 }
 
-export class Pollerloop<Timeout> {
-	private timers = new Set<Cancellable<Timeout>>();
-	private loopPromise?: Promise<void>;
-	public startable = Startable.create(
-		() => this.start(),
-		() => this.stop(),
-	);
-
-	constructor(
-		loop: Loop,
-		setTimeout: SetTimeout<Timeout>,
-		clearTimeout: ClearTimeout<Timeout>,
-	);
-	constructor(
-		loop: Loop,
-	);
-	constructor(
-		private loop: Loop,
-		private setTimeout = globalThis.setTimeout,
-		private clearTimeout = globalThis.clearTimeout,
-	) { }
-
-	private sleep: Sleep = async (ms: number) => {
-		if (this.startable.getReadyState() === ReadyState.STOPPING)
-			return Promise.reject('stopping');
-		const timer = sleep(ms, this.setTimeout, this.clearTimeout);
-		this.timers.add(timer);
-		await timer.finally(() => {
-			this.timers.delete(timer);
-		});
-	}
-
-	protected async start(): Promise<void> {
-		this.loopPromise = this.loop(this.sleep);
-		this.loopPromise.then(
-			() => void this.startable.starp(),
-			err => void this.startable.starp(err),
-		);
-	}
-
-	public getLoopPromise(): Promise<void> {
-		assert(this.startable.getReadyState() !== ReadyState.STOPPED);
-		return this.loopPromise!;
-	}
-
-	protected async stop(): Promise<void> {
-		// https://stackoverflow.com/questions/28306756/is-it-safe-to-delete-elements-in-a-set-while-iterating-with-for-of
-		for (const timer of this.timers) timer.cancel();
-		await this.loopPromise!.catch(() => { });
+export class InvalidState extends Error {
+	public constructor(
+		state: ReadyState,
+	) {
+		super(`Invalid state: ${state}`);
 	}
 }
 
 export {
-	SetTimeout,
-	ClearTimeout,
 	Cancelled,
+	Cancellable,
+	TimeEngineLike,
 }

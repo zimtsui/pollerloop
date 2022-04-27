@@ -1,41 +1,45 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cancelled = exports.Pollerloop = void 0;
+exports.Cancellable = exports.Cancelled = exports.InvalidState = exports.Pollerloop = void 0;
 const startable_1 = require("startable");
-const cancellable_sleep_1 = require("cancellable-sleep");
-Object.defineProperty(exports, "Cancelled", { enumerable: true, get: function () { return cancellable_sleep_1.Cancelled; } });
+const cancellable_1 = require("cancellable");
+Object.defineProperty(exports, "Cancellable", { enumerable: true, get: function () { return cancellable_1.Cancellable; } });
+Object.defineProperty(exports, "Cancelled", { enumerable: true, get: function () { return cancellable_1.Cancelled; } });
+const timers_1 = require("./timers");
+const loop_promise_1 = require("./loop-promise");
 const assert = require("assert");
 class Pollerloop {
-    constructor(loop, setTimeout = globalThis.setTimeout, clearTimeout = globalThis.clearTimeout) {
+    constructor(loop, engine) {
         this.loop = loop;
-        this.setTimeout = setTimeout;
-        this.clearTimeout = clearTimeout;
-        this.timers = new Set();
-        this.startable = startable_1.Startable.create(() => this.start(), () => this.stop());
-        this.sleep = async (ms) => {
-            if (this.startable.getReadyState() === "STOPPING" /* STOPPING */)
-                return Promise.reject('stopping');
-            const timer = (0, cancellable_sleep_1.sleep)(ms, this.setTimeout, this.clearTimeout);
+        this.engine = engine;
+        this.timers = new timers_1.Timers();
+        this.loopPromise = new loop_promise_1.LoopPromise();
+        this.startable = new startable_1.Startable(() => this.start(), () => this.stop());
+        this.sleep = (time) => {
+            assert(this.startable.getReadyState() === "STARTING" /* STARTING */ ||
+                this.startable.getReadyState() === "STARTED" /* STARTED */, new InvalidState(this.startable.getReadyState()));
+            const timer = new cancellable_1.Cancellable(time, this.engine);
             this.timers.add(timer);
-            await timer.finally(() => {
-                this.timers.delete(timer);
-            });
+            return timer;
         };
     }
     async start() {
-        this.loopPromise = this.loop(this.sleep);
-        this.loopPromise.then(() => void this.startable.starp(), err => void this.startable.starp(err));
+        this.loop(this.sleep).then(() => this.loopPromise.resolve(), (err) => this.loopPromise.reject(err));
+        this.loopPromise.then(() => this.startable.starp(), err => this.startable.starp(err));
     }
     getLoopPromise() {
-        assert(this.startable.getReadyState() !== "STOPPED" /* STOPPED */);
         return this.loopPromise;
     }
     async stop() {
-        // https://stackoverflow.com/questions/28306756/is-it-safe-to-delete-elements-in-a-set-while-iterating-with-for-of
-        for (const timer of this.timers)
-            timer.cancel();
+        this.timers.clear();
         await this.loopPromise.catch(() => { });
     }
 }
 exports.Pollerloop = Pollerloop;
+class InvalidState extends Error {
+    constructor(state) {
+        super(`Invalid state: ${state}`);
+    }
+}
+exports.InvalidState = InvalidState;
 //# sourceMappingURL=pollerloop.js.map
