@@ -2,8 +2,8 @@
     "name": "pollerloop",
     "version": "0.0.1",
     "description": "",
-    "main": "./build/pollerloop.js",
-    "types": "./build/pollerloop.d.ts",
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
     "scripts": {
         "build": "tsc -b ./src/tsconfig.json",
         "test": "tsc -b ./test/src/tsconfig.json && ava"
