@@ -1,4 +1,4 @@
-import { Cancellable } from 'cancellable';
+import { Cancellable, Cancelled } from 'cancellable';
 
 
 export class Timers extends Set<Cancellable> {
@@ -12,7 +12,9 @@ export class Timers extends Set<Cancellable> {
 
 	public clear(): void {
 		for (const timer of this)
-			timer.cancel();
+			timer.cancel(new LoopStopped());
 		super.clear();
 	}
 }
+
+export class LoopStopped extends Cancelled { }
