@@ -17,4 +17,4 @@ export class Timers extends Set<Cancellable> {
 	}
 }
 
-export class LoopStopped extends Cancelled { }
+export class LoopStopped extends Error { }
