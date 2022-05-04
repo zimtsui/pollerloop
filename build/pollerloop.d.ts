@@ -1,5 +1,5 @@
 import { Startable, ReadyState } from 'startable';
-import { Cancellable, TimeEngineLike, Cancelled } from 'cancellable';
+import { Cancellable, TimeEngineLike } from 'cancellable';
 export declare class Pollerloop {
     private loop;
     private engine;
@@ -21,4 +21,3 @@ export interface Sleep {
 export declare class InvalidState extends Error {
     constructor(state: ReadyState);
 }
-export { Cancelled, Cancellable, TimeEngineLike, };

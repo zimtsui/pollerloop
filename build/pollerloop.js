@@ -1,10 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cancellable = exports.Cancelled = exports.InvalidState = exports.Pollerloop = void 0;
+exports.InvalidState = exports.Pollerloop = void 0;
 const startable_1 = require("startable");
 const cancellable_1 = require("cancellable");
-Object.defineProperty(exports, "Cancellable", { enumerable: true, get: function () { return cancellable_1.Cancellable; } });
-Object.defineProperty(exports, "Cancelled", { enumerable: true, get: function () { return cancellable_1.Cancelled; } });
 const timers_1 = require("./timers");
 const loop_promise_1 = require("./loop-promise");
 const assert = require("assert");

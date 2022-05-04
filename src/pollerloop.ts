@@ -5,7 +5,6 @@ import {
 import {
 	Cancellable,
 	TimeEngineLike,
-	Cancelled,
 } from 'cancellable';
 import { Timers } from './timers';
 import { LoopPromise } from './loop-promise';
@@ -76,10 +75,4 @@ export class InvalidState extends Error {
 	) {
 		super(`Invalid state: ${state}`);
 	}
-}
-
-export {
-	Cancelled,
-	Cancellable,
-	TimeEngineLike,
 }
