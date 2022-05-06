@@ -19,8 +19,7 @@
     },
     "homepage": "https://github.com/zimtsui/pollerloop#readme",
     "dependencies": {
-        "manual-promise": "github:zimtsui/manual-promise",
-        "startable": "github:zimtsui/startable"
+        "manual-promise": "github:zimtsui/manual-promise"
     },
     "devDependencies": {
         "@types/assert": "^1.5.6",
@@ -33,6 +32,7 @@
         "sinon": "^9.2.2"
     },
     "peerDependencies": {
+        "startable": "github:zimtsui/startable",
         "cancellable": "github:zimtsui/cancellable",
         "time-engine-like": "github:zimtsui/time-engine-like"
     }
