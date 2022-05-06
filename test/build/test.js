@@ -1,16 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sinon = require("sinon");
-const chai = require("chai");
-const chaiAsPromised = require("chai-as-promised");
 const __1 = require("../..");
+const cancellable_1 = require("cancellable");
 const ava_1 = require("ava");
 const Bluebird = require("bluebird");
-const timeout_1 = require("timeout");
-chai.use(chaiAsPromised);
-const { assert } = chai;
+const node_time_engine_1 = require("node-time-engine");
+const assert = require("assert");
+const engine = new node_time_engine_1.NodeTimeEngine();
 const { fake } = sinon;
-const engine = new timeout_1.TimeEngine();
+class CustomError extends Error {
+    constructor() {
+        super('');
+    }
+}
 const createTik = () => {
     let time;
     return () => {
@@ -51,7 +54,7 @@ const createTik = () => {
             t.log(tik());
             const timer1 = sleep(1000).catch(() => { });
             if (i === 2) {
-                throw new Error('haha');
+                throw new CustomError();
             }
             await timer1;
         }
@@ -61,8 +64,8 @@ const createTik = () => {
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.isRejected(pollerloop.getLoopPromise(), { message: 'haha' });
-    assert(cb.args[0][0].message === 'haha');
+    await assert.rejects(pollerloop.getLoopPromise(), CustomError);
+    assert(cb.args[0][0] instanceof CustomError);
 });
 (0, ava_1.default)('test manual stop', async (t) => {
     const tik = createTik();
@@ -82,10 +85,10 @@ const createTik = () => {
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.isRejected(pollerloop.getLoopPromise(), new __1.Cancelled().message);
+    await assert.rejects(pollerloop.getLoopPromise(), cancellable_1.Cancelled);
     t.log(tik());
     assert(cb.callCount === 1);
-    assert.isUndefined(cb.args[0][0]);
+    assert(typeof cb.args[0][0] === 'undefined');
 });
 (0, ava_1.default)('test 2', async (t) => {
     const tik = createTik();
@@ -106,7 +109,7 @@ const createTik = () => {
     }).catch(() => { });
     await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
-    assert.isUndefined(cb.args[0][0]);
+    assert(typeof cb.args[0][0] === 'undefined');
 });
 (0, ava_1.default)('test 3', async (t) => {
     const tik = createTik();
@@ -130,7 +133,7 @@ const createTik = () => {
     }).catch(() => { });
     await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
-    assert.isUndefined(cb.args[0][0]);
+    assert(typeof cb.args[0][0] === 'undefined');
 });
 (0, ava_1.default)('test 4', async (t) => {
     const tik = createTik();
@@ -154,6 +157,6 @@ const createTik = () => {
     }).catch(() => { });
     await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
-    assert.isUndefined(cb.args[0][0]);
+    assert(typeof cb.args[0][0] === 'undefined');
 });
 //# sourceMappingURL=test.js.map

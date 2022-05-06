@@ -2,10 +2,8 @@ import {
 	Startable,
 	ReadyState,
 } from 'startable';
-import {
-	Cancellable,
-	TimeEngineLike,
-} from 'cancellable';
+import { Cancellable } from 'cancellable';
+import { TimeEngineLike } from 'time-engine-like';
 import { Timers } from './timers';
 import { LoopPromise } from './loop-promise';
 import assert = require('assert');

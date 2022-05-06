@@ -12,9 +12,9 @@ export class Timers extends Set<Cancellable> {
 
 	public clear(): void {
 		for (const timer of this)
-			timer.cancel(new LoopStopped());
+			timer.cancel(new LoopStopped('Loop stopped.'));
 		super.clear();
 	}
 }
 
-export class LoopStopped extends Error { }
+export class LoopStopped extends Cancelled { }

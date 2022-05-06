@@ -1,5 +1,6 @@
 import { Startable, ReadyState } from 'startable';
-import { Cancellable, TimeEngineLike } from 'cancellable';
+import { Cancellable } from 'cancellable';
+import { TimeEngineLike } from 'time-engine-like';
 export declare class Pollerloop {
     private loop;
     private engine;

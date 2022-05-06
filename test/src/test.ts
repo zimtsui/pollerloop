@@ -1,20 +1,23 @@
 import sinon = require('sinon');
-import chai = require('chai');
-import chaiAsPromised = require('chai-as-promised');
 import {
     Pollerloop,
     Loop,
-    Cancelled,
 } from '../..';
+import { Cancelled } from 'cancellable';
 import test from 'ava';
 import Bluebird = require('bluebird');
-import { TimeEngine } from 'timeout';
+import { NodeTimeEngine } from 'node-time-engine';
+import assert = require('assert');
 
-chai.use(chaiAsPromised);
-const { assert } = chai;
+const engine = new NodeTimeEngine();
 const { fake } = sinon;
-const engine = new TimeEngine();
 
+
+class CustomError extends Error {
+    public constructor() {
+        super('');
+    }
+}
 
 const createTik = () => {
     let time: any;
@@ -61,7 +64,7 @@ test('test exception', async t => {
             const timer1 = sleep(1000).catch(() => { });
 
             if (i === 2) {
-                throw new Error('haha');
+                throw new CustomError();
             }
 
             await timer1;
@@ -72,8 +75,8 @@ test('test exception', async t => {
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.isRejected(pollerloop.getLoopPromise(), { message: 'haha' });
-    assert(cb.args[0][0].message === 'haha');
+    await assert.rejects(pollerloop.getLoopPromise(), CustomError);
+    assert(cb.args[0][0] instanceof CustomError);
 });
 
 
@@ -96,10 +99,10 @@ test('test manual stop', async t => {
     pollerloop.startable.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.isRejected(pollerloop.getLoopPromise(), new Cancelled().message);
+    await assert.rejects(pollerloop.getLoopPromise(), Cancelled);
     t.log(tik());
     assert(cb.callCount === 1);
-    assert.isUndefined(cb.args[0][0]);
+    assert(typeof cb.args[0][0] === 'undefined');
 });
 
 test('test 2', async t => {
@@ -122,7 +125,7 @@ test('test 2', async t => {
     }).catch(() => { });
     await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
-    assert.isUndefined(cb.args[0][0]);
+    assert(typeof cb.args[0][0] === 'undefined');
 });
 
 test('test 3', async t => {
@@ -150,7 +153,7 @@ test('test 3', async t => {
     }).catch(() => { });
     await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
-    assert.isUndefined(cb.args[0][0]);
+    assert(typeof cb.args[0][0] === 'undefined');
 });
 
 test('test 4', async t => {
@@ -178,5 +181,5 @@ test('test 4', async t => {
     }).catch(() => { });
     await pollerloop.getLoopPromise();
     assert(cb.callCount === 1);
-    assert.isUndefined(cb.args[0][0]);
+    assert(typeof cb.args[0][0] === 'undefined');
 });
