@@ -12,7 +12,7 @@ class Pollerloop {
         this.engine = engine;
         this.timers = new timers_1.Timers();
         this.loopPromise = new loop_promise_1.LoopPromise();
-        this.startable = new startable_1.Startable(() => this.start(), () => this.stop());
+        this.startable = startable_1.Startable.create(() => this.start(), () => this.stop());
         this.sleep = (ms) => {
             assert(this.startable.getReadyState() === "STARTING" /* STARTING */ ||
                 this.startable.getReadyState() === "STARTED" /* STARTED */, new InvalidState(this.startable.getReadyState()));

@@ -1,4 +1,4 @@
-import { Startable, ReadyState } from 'startable';
+import { ReadyState } from 'startable';
 import { Cancellable } from 'cancellable';
 import { TimeEngineLike } from 'time-engine-like';
 export declare class Pollerloop {
@@ -6,7 +6,7 @@ export declare class Pollerloop {
     private engine;
     private timers;
     private loopPromise;
-    startable: Startable;
+    startable: import("startable/build/startable").Startable;
     constructor(loop: Loop, engine: TimeEngineLike);
     private sleep;
     protected start(): Promise<void>;

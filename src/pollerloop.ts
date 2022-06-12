@@ -14,7 +14,7 @@ export class Pollerloop {
 	private timers = new Timers();
 	private loopPromise = new LoopPromise();
 
-	public startable = new Startable(
+	public startable = Startable.create(
 		() => this.start(),
 		() => this.stop(),
 	);

@@ -1,4 +1,4 @@
-import { ManualPromise } from 'manual-promise';
+import { ManualPromise } from '@zimtsui/manual-promise';
 
 
 export class LoopPromise extends ManualPromise<void> {
