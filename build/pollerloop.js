@@ -10,9 +10,15 @@ class Pollerloop {
     constructor(loop, engine) {
         this.loop = loop;
         this.engine = engine;
+        this.startable = startable_1.Startable.create(() => this.rawStart(), () => this.rawStop());
+        this.start = this.startable.start;
+        this.stop = this.startable.stop;
+        this.assart = this.startable.assart;
+        this.starp = this.startable.starp;
+        this.getReadyState = this.startable.getReadyState;
+        this.skipStart = this.startable.skipStart;
         this.timers = new timers_1.Timers();
         this.loopPromise = new loop_promise_1.LoopPromise();
-        this.startable = startable_1.Startable.create(() => this.start(), () => this.stop());
         this.sleep = (ms) => {
             assert(this.startable.getReadyState() === "STARTING" /* STARTING */ ||
                 this.startable.getReadyState() === "STARTED" /* STARTED */, new InvalidState(this.startable.getReadyState()));
@@ -21,14 +27,14 @@ class Pollerloop {
             return timer;
         };
     }
-    async start() {
+    async rawStart() {
         this.loop(this.sleep).then(() => this.loopPromise.resolve(), (err) => this.loopPromise.reject(err));
         this.loopPromise.then(() => this.startable.starp(), err => this.startable.starp(err));
     }
     getLoopPromise() {
         return this.loopPromise;
     }
-    async stop() {
+    async rawStop() {
         this.timers.clear();
         await this.loopPromise.catch(() => { });
     }

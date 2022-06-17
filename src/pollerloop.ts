@@ -1,6 +1,7 @@
 import {
 	Startable,
 	ReadyState,
+	StartableLike,
 } from 'startable';
 import { Cancellable } from 'cancellable';
 import { TimeEngineLike } from 'time-engine-like';
@@ -10,14 +11,21 @@ import assert = require('assert');
 
 
 
-export class Pollerloop {
+export class Pollerloop implements StartableLike {
+	private startable = Startable.create(
+		() => this.rawStart(),
+		() => this.rawStop(),
+	);
+	public start = this.startable.start;
+	public stop = this.startable.stop;
+	public assart = this.startable.assart;
+	public starp = this.startable.starp;
+	public getReadyState = this.startable.getReadyState;
+	public skipStart = this.startable.skipStart;
+
 	private timers = new Timers();
 	private loopPromise = new LoopPromise();
 
-	public startable = Startable.create(
-		() => this.start(),
-		() => this.stop(),
-	);
 
 	public constructor(
 		private loop: Loop,
@@ -38,7 +46,7 @@ export class Pollerloop {
 		return timer;
 	}
 
-	protected async start(): Promise<void> {
+	protected async rawStart(): Promise<void> {
 		this.loop(this.sleep).then(
 			() => this.loopPromise.resolve(),
 			(err: Error) => this.loopPromise.reject(err),
@@ -53,7 +61,7 @@ export class Pollerloop {
 		return this.loopPromise;
 	}
 
-	protected async stop(): Promise<void> {
+	protected async rawStop(): Promise<void> {
 		this.timers.clear();
 		await this.loopPromise.catch(() => { });
 	}
