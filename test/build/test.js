@@ -40,7 +40,7 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.startable.start(err => {
+    pollerloop.start(err => {
         cb(err);
     }).catch(() => { });
     await pollerloop.getLoopPromise();
@@ -61,7 +61,7 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.startable.start(err => {
+    pollerloop.start(err => {
         cb(err);
     }).catch(() => { });
     await assert.rejects(pollerloop.getLoopPromise(), CustomError);
@@ -80,9 +80,9 @@ const createTik = () => {
     const pollerloop = new __1.Pollerloop(loop, engine);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
-        pollerloop.startable.stop();
+        pollerloop.stop();
     });
-    pollerloop.startable.start(err => {
+    pollerloop.start(err => {
         cb(err);
     }).catch(() => { });
     await assert.rejects(pollerloop.getLoopPromise(), cancellable_1.Cancelled);
@@ -104,7 +104,7 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.startable.start(err => {
+    pollerloop.start(err => {
         cb(err);
     }).catch(() => { });
     await pollerloop.getLoopPromise();
@@ -128,7 +128,7 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.startable.start(err => {
+    pollerloop.start(err => {
         cb(err);
     }).catch(() => { });
     await pollerloop.getLoopPromise();
@@ -152,7 +152,7 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.startable.start(err => {
+    pollerloop.start(err => {
         cb(err);
     }).catch(() => { });
     await pollerloop.getLoopPromise();
