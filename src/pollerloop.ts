@@ -1,5 +1,5 @@
 import {
-	Startable,
+	createStartable,
 	ReadyState,
 	StartableLike,
 } from 'startable';
@@ -12,7 +12,7 @@ import assert = require('assert');
 
 
 export class Pollerloop implements StartableLike {
-	private startable = Startable.create(
+	private startable = createStartable(
 		() => this.rawStart(),
 		() => this.rawStop(),
 	);
