@@ -46,7 +46,7 @@ test('test 1', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.start(err => {
+    pollerloop.$s.start([], err => {
         cb(err);
     }).catch(() => { });
     await pollerloop.getLoopPromise();
@@ -72,7 +72,7 @@ test('test exception', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.start(err => {
+    pollerloop.$s.start([], err => {
         cb(err);
     }).catch(() => { });
     await assert.rejects(pollerloop.getLoopPromise(), CustomError);
@@ -94,9 +94,9 @@ test('test manual stop', async t => {
     const pollerloop = new Pollerloop(loop, engine);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
-        pollerloop.stop();
+        pollerloop.$s.stop();
     });
-    pollerloop.start(err => {
+    pollerloop.$s.start([], err => {
         cb(err);
     }).catch(() => { });
     await assert.rejects(pollerloop.getLoopPromise(), Cancelled);
@@ -120,7 +120,7 @@ test('test 2', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.start(err => {
+    pollerloop.$s.start([], err => {
         cb(err);
     }).catch(() => { });
     await pollerloop.getLoopPromise();
@@ -148,7 +148,7 @@ test('test 3', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.start(err => {
+    pollerloop.$s.start([], err => {
         cb(err);
     }).catch(() => { });
     await pollerloop.getLoopPromise();
@@ -176,7 +176,7 @@ test('test 4', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.start(err => {
+    pollerloop.$s.start([], err => {
         cb(err);
     }).catch(() => { });
     await pollerloop.getLoopPromise();

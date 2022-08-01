@@ -11,17 +11,11 @@ import assert = require('assert');
 
 
 
-export class Pollerloop implements StartableLike {
-	private startable = createStartable(
+export class Pollerloop {
+	public $s = createStartable(
 		() => this.rawStart(),
 		() => this.rawStop(),
 	);
-	public start = this.startable.start;
-	public stop = this.startable.stop;
-	public assart = this.startable.assart;
-	public starp = this.startable.starp;
-	public getReadyState = this.startable.getReadyState;
-	public skipStart = this.startable.skipStart;
 
 	private timers = new Timers();
 	private loopPromise = new LoopPromise();
@@ -34,9 +28,9 @@ export class Pollerloop implements StartableLike {
 
 	private sleep: Sleep = (ms: number): Cancellable => {
 		assert(
-			this.startable.getReadyState() === ReadyState.STARTING ||
-			this.startable.getReadyState() === ReadyState.STARTED,
-			new InvalidState(this.startable.getReadyState()),
+			this.$s.getReadyState() === ReadyState.STARTING ||
+			this.$s.getReadyState() === ReadyState.STARTED,
+			new InvalidState(this.$s.getReadyState()),
 		);
 		const timer = new Cancellable(
 			ms,
@@ -52,8 +46,8 @@ export class Pollerloop implements StartableLike {
 			(err: Error) => this.loopPromise.reject(err),
 		);
 		this.loopPromise.then(
-			() => this.startable.starp(),
-			err => this.startable.starp(err),
+			() => this.$s.starp(),
+			err => this.$s.starp(err),
 		);
 	}
 

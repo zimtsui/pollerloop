@@ -10,18 +10,12 @@ class Pollerloop {
     constructor(loop, engine) {
         this.loop = loop;
         this.engine = engine;
-        this.startable = (0, startable_1.createStartable)(() => this.rawStart(), () => this.rawStop());
-        this.start = this.startable.start;
-        this.stop = this.startable.stop;
-        this.assart = this.startable.assart;
-        this.starp = this.startable.starp;
-        this.getReadyState = this.startable.getReadyState;
-        this.skipStart = this.startable.skipStart;
+        this.$s = (0, startable_1.createStartable)(() => this.rawStart(), () => this.rawStop());
         this.timers = new timers_1.Timers();
         this.loopPromise = new loop_promise_1.LoopPromise();
         this.sleep = (ms) => {
-            assert(this.startable.getReadyState() === "STARTING" /* STARTING */ ||
-                this.startable.getReadyState() === "STARTED" /* STARTED */, new InvalidState(this.startable.getReadyState()));
+            assert(this.$s.getReadyState() === "STARTING" /* STARTING */ ||
+                this.$s.getReadyState() === "STARTED" /* STARTED */, new InvalidState(this.$s.getReadyState()));
             const timer = new cancellable_1.Cancellable(ms, this.engine);
             this.timers.add(timer);
             return timer;
@@ -29,7 +23,7 @@ class Pollerloop {
     }
     async rawStart() {
         this.loop(this.sleep).then(() => this.loopPromise.resolve(), (err) => this.loopPromise.reject(err));
-        this.loopPromise.then(() => this.startable.starp(), err => this.startable.starp(err));
+        this.loopPromise.then(() => this.$s.starp(), err => this.$s.starp(err));
     }
     getLoopPromise() {
         return this.loopPromise;

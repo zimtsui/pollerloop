@@ -1,16 +1,10 @@
-import { ReadyState, StartableLike } from 'startable';
+import { ReadyState } from 'startable';
 import { Cancellable } from 'cancellable';
 import { TimeEngineLike } from 'time-engine-like';
-export declare class Pollerloop implements StartableLike {
+export declare class Pollerloop {
     private loop;
     private engine;
-    private startable;
-    start: (onStopping?: import("startable").OnStopping | undefined) => Promise<void>;
-    stop: (err?: Error | undefined) => Promise<void>;
-    assart: (onStopping?: import("startable").OnStopping | undefined) => Promise<void>;
-    starp: (err?: Error | undefined) => Promise<void>;
-    getReadyState: () => ReadyState;
-    skipStart: (onStopping?: import("startable").OnStopping | undefined) => void;
+    $s: import("startable").Startable<[]>;
     private timers;
     private loopPromise;
     constructor(loop: Loop, engine: TimeEngineLike);
