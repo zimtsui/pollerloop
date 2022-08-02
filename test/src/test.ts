@@ -3,7 +3,7 @@ import {
     Pollerloop,
     Loop,
 } from '../..';
-import { Cancelled } from 'cancellable';
+import { Cancelled } from 'time-engine-like';
 import test from 'ava';
 import Bluebird = require('bluebird');
 import { NodeTimeEngine } from 'node-time-engine';

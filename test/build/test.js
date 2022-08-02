@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sinon = require("sinon");
 const __1 = require("../..");
-const cancellable_1 = require("cancellable");
+const time_engine_like_1 = require("time-engine-like");
 const ava_1 = require("ava");
 const Bluebird = require("bluebird");
 const node_time_engine_1 = require("node-time-engine");
@@ -85,7 +85,7 @@ const createTik = () => {
     pollerloop.$s.start([], err => {
         cb(err);
     }).catch(() => { });
-    await assert.rejects(pollerloop.getLoopPromise(), cancellable_1.Cancelled);
+    await assert.rejects(pollerloop.getLoopPromise(), time_engine_like_1.Cancelled);
     t.log(tik());
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');

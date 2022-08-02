@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoopStopped = exports.Timers = void 0;
-const cancellable_1 = require("cancellable");
+const time_engine_like_1 = require("time-engine-like");
 class Timers extends Set {
     add(timer) {
         super.add(timer);
@@ -17,7 +17,7 @@ class Timers extends Set {
     }
 }
 exports.Timers = Timers;
-class LoopStopped extends cancellable_1.Cancelled {
+class LoopStopped extends time_engine_like_1.Cancelled {
 }
 exports.LoopStopped = LoopStopped;
 //# sourceMappingURL=timers.js.map

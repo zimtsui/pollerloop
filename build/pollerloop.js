@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InvalidState = exports.Pollerloop = void 0;
 const startable_1 = require("startable");
-const cancellable_1 = require("cancellable");
+const time_engine_like_1 = require("time-engine-like");
 const timers_1 = require("./timers");
 const loop_promise_1 = require("./loop-promise");
 const assert = require("assert");
@@ -16,7 +16,7 @@ class Pollerloop {
         this.sleep = (ms) => {
             assert(this.$s.getReadyState() === "STARTING" /* STARTING */ ||
                 this.$s.getReadyState() === "STARTED" /* STARTED */, new InvalidState(this.$s.getReadyState()));
-            const timer = new cancellable_1.Cancellable(ms, this.engine);
+            const timer = new time_engine_like_1.Cancellable(ms, this.engine);
             this.timers.add(timer);
             return timer;
         };

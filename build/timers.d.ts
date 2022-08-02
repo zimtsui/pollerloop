@@ -1,4 +1,4 @@
-import { Cancellable, Cancelled } from 'cancellable';
+import { Cancellable, Cancelled } from 'time-engine-like';
 export declare class Timers extends Set<Cancellable> {
     add(timer: Cancellable): this;
     clear(): void;

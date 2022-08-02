@@ -38,7 +38,6 @@
         "sinon": "^9.2.2"
     },
     "peerDependencies": {
-        "cancellable": "github:zimtsui/cancellable",
         "startable": "github:zimtsui/startable",
         "time-engine-like": "github:zimtsui/time-engine-like"
     }
