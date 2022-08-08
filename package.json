@@ -6,13 +6,9 @@
     "types": "./build/index.d.ts",
     "scripts": {
         "build": "tsc -b ./src/tsconfig.json",
-        "clean": "rm -rf ./build",
+        "clean": "rm -rf ./build && rm -rf ./test/build",
         "rebuild": "npm run clean && npm run build",
-        "build-test": "tsc -b ./test/src/tsconfig.json",
-        "clean-test": "rm -rf ./test/build",
-        "rebuild-test": "npm run clean-test && npm run build-test",
-        "rebuild-all": "npm run rebuild && npm run rebuild-test",
-        "test": "npm run build-test && ava"
+        "test": "tsc -b ./test/src/tsconfig.json && ava"
     },
     "repository": {
         "type": "git",
@@ -24,9 +20,6 @@
         "url": "https://github.com/zimtsui/pollerloop/issues"
     },
     "homepage": "https://github.com/zimtsui/pollerloop#readme",
-    "dependencies": {
-        "@zimtsui/manual-promise": "^0.0.2"
-    },
     "devDependencies": {
         "@types/assert": "^1.5.6",
         "@types/bluebird": "^3.5.32",

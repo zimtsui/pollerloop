@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sinon = require("sinon");
 const __1 = require("../..");
-const time_engine_like_1 = require("time-engine-like");
 const ava_1 = require("ava");
 const Bluebird = require("bluebird");
 const node_time_engine_1 = require("node-time-engine");
@@ -40,10 +39,10 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start([], err => {
+    pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.getLoopPromise();
+    await pollerloop.$s;
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -61,10 +60,10 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start([], err => {
+    pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.rejects(pollerloop.getLoopPromise(), CustomError);
+    await assert.rejects(pollerloop.$s, CustomError);
     assert(cb.args[0][0] instanceof CustomError);
 });
 (0, ava_1.default)('test manual stop', async (t) => {
@@ -82,10 +81,10 @@ const createTik = () => {
         t.log('pollerloop.stop()');
         pollerloop.$s.stop();
     });
-    pollerloop.$s.start([], err => {
+    pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.rejects(pollerloop.getLoopPromise(), time_engine_like_1.Cancelled);
+    await pollerloop.$s;
     t.log(tik());
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
@@ -104,10 +103,10 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start([], err => {
+    pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.getLoopPromise();
+    await pollerloop.$s;
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -128,10 +127,10 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start([], err => {
+    pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.getLoopPromise();
+    await pollerloop.$s;
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -152,10 +151,10 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start([], err => {
+    pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.getLoopPromise();
+    await pollerloop.$s;
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
