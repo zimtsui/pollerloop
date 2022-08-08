@@ -13,5 +13,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoopStopped = void 0;
 var timers_1 = require("./timers");
 Object.defineProperty(exports, "LoopStopped", { enumerable: true, get: function () { return timers_1.LoopStopped; } });
+__exportStar(require("./pollerloop-like"), exports);
 __exportStar(require("./pollerloop"), exports);
 //# sourceMappingURL=index.js.map

@@ -8,11 +8,12 @@ import {
 } from 'time-engine-like';
 import { Timers } from './timers';
 import { LoopPromise } from './loop-promise';
+import { PollerloopLike } from './pollerloop-like';
 import assert = require('assert');
 
 
 
-export class Pollerloop {
+export class Pollerloop implements PollerloopLike {
 	public $s = createStartable(
 		() => this.rawStart(),
 		() => this.rawStop(),
