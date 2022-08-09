@@ -49,7 +49,7 @@ test('test 1', async t => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -75,7 +75,8 @@ test('test exception', async t => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.rejects(pollerloop.$s, CustomError);
+    await assert.rejects(Promise.resolve(pollerloop.$s.getPromise()), CustomError);
+    await assert.rejects(pollerloop.getLoopPromise(), CustomError);
     assert(cb.args[0][0] instanceof CustomError);
 });
 
@@ -99,7 +100,7 @@ test('test manual stop', async t => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     t.log(tik());
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
@@ -123,7 +124,7 @@ test('test 2', async t => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -151,7 +152,7 @@ test('test 3', async t => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -179,7 +180,7 @@ test('test 4', async t => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });

@@ -10,6 +10,7 @@ export declare class Pollerloop {
     private sleep;
     protected rawStart(): Promise<void>;
     protected rawStop(): Promise<void>;
+    getLoopPromise(): Promise<void>;
 }
 export interface Loop {
     (sleep: Sleep): Promise<void>;

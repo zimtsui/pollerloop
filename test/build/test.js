@@ -42,7 +42,7 @@ const createTik = () => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -63,7 +63,8 @@ const createTik = () => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.rejects(pollerloop.$s, CustomError);
+    await assert.rejects(Promise.resolve(pollerloop.$s.getPromise()), CustomError);
+    await assert.rejects(pollerloop.getLoopPromise(), CustomError);
     assert(cb.args[0][0] instanceof CustomError);
 });
 (0, ava_1.default)('test manual stop', async (t) => {
@@ -84,7 +85,7 @@ const createTik = () => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     t.log(tik());
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
@@ -106,7 +107,7 @@ const createTik = () => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -130,7 +131,7 @@ const createTik = () => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -154,7 +155,7 @@ const createTik = () => {
     pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s;
+    await pollerloop.$s.getPromise();
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });

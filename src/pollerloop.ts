@@ -53,6 +53,11 @@ export class Pollerloop {
 		if (this.loopPromise)
 			await this.loopPromise.catch(() => { });
 	}
+
+	public getLoopPromise(): Promise<void> {
+		assert(this.$s.getReadyState() !== ReadyState.READY);
+		return this.loopPromise!;
+	}
 }
 
 export interface Loop {

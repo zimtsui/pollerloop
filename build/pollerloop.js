@@ -28,6 +28,10 @@ class Pollerloop {
         if (this.loopPromise)
             await this.loopPromise.catch(() => { });
     }
+    getLoopPromise() {
+        assert(this.$s.getReadyState() !== "READY" /* READY */);
+        return this.loopPromise;
+    }
 }
 exports.Pollerloop = Pollerloop;
 class InvalidState extends Error {
