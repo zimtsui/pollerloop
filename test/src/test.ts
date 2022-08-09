@@ -46,10 +46,11 @@ test('test 1', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -72,11 +73,12 @@ test('test exception', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.rejects(Promise.resolve(pollerloop.$s.getPromise()), CustomError);
     await assert.rejects(pollerloop.getLoopPromise(), CustomError);
+    await assert.rejects(Promise.resolve(pollerloop.$s.getRunningPromise()), CustomError);
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.args[0][0] instanceof CustomError);
 });
 
@@ -97,11 +99,12 @@ test('test manual stop', async t => {
         t.log('pollerloop.stop()');
         pollerloop.$s.stop();
     });
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
     t.log(tik());
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -121,10 +124,11 @@ test('test 2', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -149,10 +153,11 @@ test('test 3', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -177,10 +182,11 @@ test('test 4', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });

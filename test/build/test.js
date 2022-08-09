@@ -39,10 +39,11 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -60,11 +61,12 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await assert.rejects(Promise.resolve(pollerloop.$s.getPromise()), CustomError);
     await assert.rejects(pollerloop.getLoopPromise(), CustomError);
+    await assert.rejects(Promise.resolve(pollerloop.$s.getRunningPromise()), CustomError);
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.args[0][0] instanceof CustomError);
 });
 (0, ava_1.default)('test manual stop', async (t) => {
@@ -82,11 +84,12 @@ const createTik = () => {
         t.log('pollerloop.stop()');
         pollerloop.$s.stop();
     });
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
     t.log(tik());
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -104,10 +107,11 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -128,10 +132,11 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -152,10 +157,11 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, engine);
-    pollerloop.$s.start(err => {
+    await pollerloop.$s.start(err => {
         cb(err);
     }).catch(() => { });
-    await pollerloop.$s.getPromise();
+    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
