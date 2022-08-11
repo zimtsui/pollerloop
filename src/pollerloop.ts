@@ -1,6 +1,7 @@
 import {
 	createStartable,
 	ReadyState,
+	IncorrectState,
 } from 'startable';
 import {
 	TimeEngineLike,
@@ -55,7 +56,13 @@ export class Pollerloop {
 	}
 
 	public getLoopPromise(): Promise<void> {
-		assert(this.$s.getReadyState() !== ReadyState.READY);
+		assert(
+			this.$s.getReadyState() !== ReadyState.READY,
+			new IncorrectState(
+				'getLoopPromise',
+				this.$s.getReadyState(),
+			),
+		);
 		return this.loopPromise!;
 	}
 }

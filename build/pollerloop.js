@@ -29,7 +29,7 @@ class Pollerloop {
             await this.loopPromise.catch(() => { });
     }
     getLoopPromise() {
-        assert(this.$s.getReadyState() !== "READY" /* READY */);
+        assert(this.$s.getReadyState() !== "READY" /* READY */, new startable_1.IncorrectState('getLoopPromise', this.$s.getReadyState()));
         return this.loopPromise;
     }
 }
