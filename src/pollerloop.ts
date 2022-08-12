@@ -1,7 +1,7 @@
 import {
 	createStartable,
 	ReadyState,
-	IncorrectState,
+	StateError,
 } from 'startable';
 import {
 	TimeEngineLike,
@@ -28,10 +28,9 @@ export class Pollerloop {
 	) { }
 
 	private sleep: Sleep = (ms: number): Cancellable => {
-		assert(
-			this.$s.getReadyState() === ReadyState.STARTING ||
-			this.$s.getReadyState() === ReadyState.STARTED,
-			new InvalidState(this.$s.getReadyState()),
+		this.$s.assertReadyState(
+			'sleep',
+			[ReadyState.STARTING, ReadyState.STARTED],
 		);
 		const timer = new Cancellable(
 			ms,
@@ -44,8 +43,8 @@ export class Pollerloop {
 	protected async rawStart(): Promise<void> {
 		this.loopPromise = this.loop(this.sleep);
 		this.loopPromise.then(
-			() => this.$s.starp(),
-			err => this.$s.starp(err),
+			() => this.$s.stop(),
+			err => this.$s.stop(err),
 		);
 	}
 
@@ -58,7 +57,7 @@ export class Pollerloop {
 	public getLoopPromise(): Promise<void> {
 		assert(
 			this.$s.getReadyState() !== ReadyState.READY,
-			new IncorrectState(
+			new StateError(
 				'getLoopPromise',
 				this.$s.getReadyState(),
 			),
@@ -73,12 +72,4 @@ export interface Loop {
 
 export interface Sleep {
 	(ms: number): Cancellable;
-}
-
-export class InvalidState extends Error {
-	public constructor(
-		state: ReadyState,
-	) {
-		super(`Invalid state: ${state}`);
-	}
 }

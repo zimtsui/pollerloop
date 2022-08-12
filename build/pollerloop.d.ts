@@ -1,4 +1,3 @@
-import { ReadyState } from 'startable';
 import { TimeEngineLike, Cancellable } from 'time-engine-like';
 export declare class Pollerloop {
     private loop;
@@ -17,7 +16,4 @@ export interface Loop {
 }
 export interface Sleep {
     (ms: number): Cancellable;
-}
-export declare class InvalidState extends Error {
-    constructor(state: ReadyState);
 }
