@@ -6,7 +6,6 @@ const ava_1 = require("ava");
 const Bluebird = require("bluebird");
 const node_time_engine_1 = require("node-time-engine");
 const assert = require("assert");
-const engine = new node_time_engine_1.NodeTimeEngine();
 const { fake } = sinon;
 class CustomError extends Error {
     constructor() {
@@ -38,7 +37,7 @@ const createTik = () => {
         }
     };
     const cb = fake();
-    const pollerloop = new __1.Pollerloop(loop, engine);
+    const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
@@ -60,11 +59,10 @@ const createTik = () => {
         }
     };
     const cb = fake();
-    const pollerloop = new __1.Pollerloop(loop, engine);
+    const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await assert.rejects(pollerloop.getLoopPromise(), CustomError);
     await assert.rejects(Promise.resolve(pollerloop.$s.getRunningPromise()), CustomError);
     await pollerloop.$s.stop().catch(() => { });
     assert(cb.args[0][0] instanceof CustomError);
@@ -79,7 +77,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(loop, engine);
+    const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
         pollerloop.$s.stop();
@@ -106,7 +104,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(loop, engine);
+    const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
@@ -131,7 +129,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(loop, engine);
+    const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
@@ -156,7 +154,7 @@ const createTik = () => {
         }
     };
     const cb = sinon.fake();
-    const pollerloop = new __1.Pollerloop(loop, engine);
+    const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });

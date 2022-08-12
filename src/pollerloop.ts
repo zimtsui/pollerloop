@@ -36,7 +36,7 @@ export class Pollerloop {
 			ms,
 			this.engine,
 		);
-		this.timers.add(timer);
+		this.timers.push(timer);
 		return timer;
 	}
 
@@ -49,20 +49,12 @@ export class Pollerloop {
 	}
 
 	protected async rawStop(): Promise<void> {
-		this.timers.clear();
+		this.timers.clear(new StateError(
+			'sleep',
+			ReadyState.STARTING,
+		));
 		if (this.loopPromise)
 			await this.loopPromise.catch(() => { });
-	}
-
-	public getLoopPromise(): Promise<void> {
-		assert(
-			this.$s.getReadyState() !== ReadyState.READY,
-			new StateError(
-				'getLoopPromise',
-				this.$s.getReadyState(),
-			),
-		);
-		return this.loopPromise!;
 	}
 }
 

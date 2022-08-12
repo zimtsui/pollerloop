@@ -3,13 +3,11 @@ import {
     Pollerloop,
     Loop,
 } from '../..';
-import { Cancelled } from 'time-engine-like';
 import test from 'ava';
 import Bluebird = require('bluebird');
-import { NodeTimeEngine } from 'node-time-engine';
+import { nodeTimeEngine as engine } from 'node-time-engine';
 import assert = require('assert');
 
-const engine = new NodeTimeEngine();
 const { fake } = sinon;
 
 
@@ -76,7 +74,6 @@ test('test exception', async t => {
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await assert.rejects(pollerloop.getLoopPromise(), CustomError);
     await assert.rejects(Promise.resolve(pollerloop.$s.getRunningPromise()), CustomError);
     await pollerloop.$s.stop().catch(() => { });
     assert(cb.args[0][0] instanceof CustomError);

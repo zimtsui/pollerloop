@@ -1,7 +1,6 @@
-import { Cancellable, Cancelled } from 'time-engine-like';
-export declare class Timers extends Set<Cancellable> {
-    add(timer: Cancellable): this;
-    clear(): void;
-}
-export declare class LoopStopped extends Cancelled {
+import { Cancellable } from 'time-engine-like';
+export declare class Timers {
+    private cancellables;
+    push(timer: Cancellable): void;
+    clear(err: Error): void;
 }

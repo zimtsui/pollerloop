@@ -4,7 +4,6 @@ exports.Pollerloop = void 0;
 const startable_1 = require("startable");
 const time_engine_like_1 = require("time-engine-like");
 const timers_1 = require("./timers");
-const assert = require("assert");
 class Pollerloop {
     constructor(loop, engine) {
         this.loop = loop;
@@ -14,7 +13,7 @@ class Pollerloop {
         this.sleep = (ms) => {
             this.$s.assertReadyState('sleep', ["STARTING" /* STARTING */, "STARTED" /* STARTED */]);
             const timer = new time_engine_like_1.Cancellable(ms, this.engine);
-            this.timers.add(timer);
+            this.timers.push(timer);
             return timer;
         };
     }
@@ -23,13 +22,9 @@ class Pollerloop {
         this.loopPromise.then(() => this.$s.stop(), err => this.$s.stop(err));
     }
     async rawStop() {
-        this.timers.clear();
+        this.timers.clear(new startable_1.StateError('sleep', "STARTING" /* STARTING */));
         if (this.loopPromise)
             await this.loopPromise.catch(() => { });
-    }
-    getLoopPromise() {
-        assert(this.$s.getReadyState() !== "READY" /* READY */, new startable_1.StateError('getLoopPromise', this.$s.getReadyState()));
-        return this.loopPromise;
     }
 }
 exports.Pollerloop = Pollerloop;

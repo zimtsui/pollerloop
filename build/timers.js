@@ -1,23 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoopStopped = exports.Timers = void 0;
-const time_engine_like_1 = require("time-engine-like");
-class Timers extends Set {
-    add(timer) {
-        super.add(timer);
-        timer.finally(() => {
-            this.delete(timer);
-        }).catch(() => { });
-        return this;
+exports.Timers = void 0;
+class Timers {
+    constructor() {
+        this.cancellables = new Set();
     }
-    clear() {
-        for (const timer of this)
-            timer.cancel(new LoopStopped('Loop stopped.'));
-        super.clear();
+    push(timer) {
+        this.cancellables.add(timer);
+        timer.finally(() => {
+            this.cancellables.delete(timer);
+        }).catch(() => { });
+    }
+    clear(err) {
+        for (const timer of this.cancellables)
+            timer.cancel(err);
+        this.cancellables.clear();
     }
 }
 exports.Timers = Timers;
-class LoopStopped extends time_engine_like_1.Cancelled {
-}
-exports.LoopStopped = LoopStopped;
 //# sourceMappingURL=timers.js.map
