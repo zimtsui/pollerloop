@@ -22,7 +22,7 @@ class Pollerloop {
         this.loopPromise.then(() => this.$s.stop(), err => this.$s.stop(err));
     }
     async rawStop() {
-        this.timers.clear(new startable_1.StateError('sleep', "STARTING" /* STARTING */));
+        this.timers.clear(new startable_1.StateError('sleep', "STOPPING" /* STOPPING */));
         if (this.loopPromise)
             await this.loopPromise.catch(() => { });
     }

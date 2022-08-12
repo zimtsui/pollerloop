@@ -51,7 +51,7 @@ export class Pollerloop {
 	protected async rawStop(): Promise<void> {
 		this.timers.clear(new StateError(
 			'sleep',
-			ReadyState.STARTING,
+			ReadyState.STOPPING,
 		));
 		if (this.loopPromise)
 			await this.loopPromise.catch(() => { });
