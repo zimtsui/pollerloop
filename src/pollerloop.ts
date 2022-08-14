@@ -2,17 +2,17 @@ import {
 	createStartable,
 	ReadyState,
 	StateError,
+	DaemonLike,
 } from 'startable';
 import {
 	TimeEngineLike,
 	Cancellable,
 } from 'time-engine-like';
 import { Timers } from './timers';
-import assert = require('assert');
 
 
 
-export class Pollerloop {
+export class Pollerloop implements DaemonLike {
 	public $s = createStartable(
 		() => this.rawStart(),
 		() => this.rawStop(),
