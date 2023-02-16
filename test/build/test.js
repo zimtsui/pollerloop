@@ -41,7 +41,7 @@ const createTik = () => {
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.getRunning();
     await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
@@ -63,7 +63,7 @@ const createTik = () => {
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await assert.rejects(Promise.resolve(pollerloop.$s.getRunningPromise()), CustomError);
+    await assert.rejects(Promise.resolve(pollerloop.$s.getRunning()), CustomError);
     await pollerloop.$s.stop().catch(() => { });
     assert(cb.args[0][0] instanceof CustomError);
 });
@@ -86,7 +86,7 @@ const createTik = () => {
         cb(err);
     }).then(() => { }, () => { });
     t.log(tik());
-    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.getRunning();
     await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
@@ -108,7 +108,7 @@ const createTik = () => {
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.getRunning();
     await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
@@ -133,7 +133,7 @@ const createTik = () => {
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.getRunning();
     await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
@@ -158,7 +158,7 @@ const createTik = () => {
     await pollerloop.$s.start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunningPromise();
+    await pollerloop.$s.getRunning();
     await pollerloop.$s.stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');

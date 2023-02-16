@@ -28,8 +28,7 @@ export class Pollerloop implements DaemonLike {
 	) { }
 
 	private sleep: Sleep = (ms: number): Cancellable => {
-		this.$s.assertReadyState(
-			'sleep',
+		this.$s.assertState(
 			[ReadyState.STARTING, ReadyState.STARTED],
 		);
 		const timer = new Cancellable(
@@ -50,7 +49,6 @@ export class Pollerloop implements DaemonLike {
 
 	protected async rawStop(): Promise<void> {
 		this.timers.clear(new StateError(
-			'sleep',
 			ReadyState.STOPPING,
 		));
 		if (this.loopPromise)

@@ -11,7 +11,7 @@ class Pollerloop {
         this.$s = (0, startable_1.createStartable)(() => this.rawStart(), () => this.rawStop());
         this.timers = new timers_1.Timers();
         this.sleep = (ms) => {
-            this.$s.assertReadyState('sleep', ["STARTING" /* STARTING */, "STARTED" /* STARTED */]);
+            this.$s.assertState([startable_1.ReadyState.STARTING, startable_1.ReadyState.STARTED]);
             const timer = new time_engine_like_1.Cancellable(ms, this.engine);
             this.timers.push(timer);
             return timer;
@@ -22,7 +22,7 @@ class Pollerloop {
         this.loopPromise.then(() => this.$s.stop(), err => this.$s.stop(err));
     }
     async rawStop() {
-        this.timers.clear(new startable_1.StateError('sleep', "STOPPING" /* STOPPING */));
+        this.timers.clear(new startable_1.StateError(startable_1.ReadyState.STOPPING));
         if (this.loopPromise)
             await this.loopPromise.catch(() => { });
     }
