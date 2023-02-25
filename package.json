@@ -30,7 +30,7 @@
         "bluebird": "^3.7.2",
         "sinon": "^9.2.2"
     },
-    "dependencies": {
-        "@zimtsui/startable": "^0.0.3"
+    "peerDependencies": {
+        "@zimtsui/startable": "^0.0.4"
     }
 }
