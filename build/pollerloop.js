@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pollerloop = void 0;
 const startable_1 = require("@zimtsui/startable");
-const time_engine_like_1 = require("time-engine-like");
+const time_engine_like_1 = require("@zimtsui/time-engine-like");
 const timers_1 = require("./timers");
 class Pollerloop {
     constructor(loop, engine) {
@@ -17,7 +17,7 @@ class Pollerloop {
         this.timers = new timers_1.Timers();
         this.sleep = (ms) => {
             (0, startable_1.$)(this).assertState([startable_1.ReadyState.STARTING, startable_1.ReadyState.STARTED]);
-            const timer = new time_engine_like_1.Cancellable(ms, this.engine);
+            const timer = new time_engine_like_1.TimeEngineLike.Cancellable(ms, this.engine);
             this.timers.push(timer);
             return timer;
         };

@@ -5,10 +5,7 @@ import {
 	AsRawStop,
 	$,
 } from '@zimtsui/startable';
-import {
-	TimeEngineLike,
-	Cancellable,
-} from 'time-engine-like';
+import { TimeEngineLike } from '@zimtsui/time-engine-like';
 import { Timers } from './timers';
 
 
@@ -23,11 +20,11 @@ export class Pollerloop {
 		private engine: TimeEngineLike,
 	) { }
 
-	private sleep: Sleep = (ms: number): Cancellable => {
+	private sleep: Sleep = (ms: number): TimeEngineLike.Cancellable => {
 		$(this).assertState(
 			[ReadyState.STARTING, ReadyState.STARTED],
 		);
-		const timer = new Cancellable(
+		const timer = new TimeEngineLike.Cancellable(
 			ms,
 			this.engine,
 		);
@@ -59,5 +56,5 @@ export interface Loop {
 }
 
 export interface Sleep {
-	(ms: number): Cancellable;
+	(ms: number): TimeEngineLike.Cancellable;
 }

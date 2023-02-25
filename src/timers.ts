@@ -1,10 +1,10 @@
-import { Cancellable } from 'time-engine-like';
+import { TimeEngineLike } from '@zimtsui/time-engine-like';
 
 
 export class Timers {
-	private cancellables = new Set<Cancellable>();
+	private cancellables = new Set<TimeEngineLike.Cancellable>();
 
-	public push(timer: Cancellable): void {
+	public push(timer: TimeEngineLike.Cancellable): void {
 		this.cancellables.add(timer);
 		timer.finally(() => {
 			this.cancellables.delete(timer);

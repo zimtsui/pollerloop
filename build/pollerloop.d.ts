@@ -1,4 +1,4 @@
-import { TimeEngineLike, Cancellable } from 'time-engine-like';
+import { TimeEngineLike } from '@zimtsui/time-engine-like';
 export declare class Pollerloop {
     private loop;
     private engine;
@@ -13,5 +13,5 @@ export interface Loop {
     (sleep: Sleep): Promise<void>;
 }
 export interface Sleep {
-    (ms: number): Cancellable;
+    (ms: number): TimeEngineLike.Cancellable;
 }

@@ -5,7 +5,7 @@ import {
 } from '../..';
 import test from 'ava';
 import Bluebird = require('bluebird');
-import { nodeTimeEngine as engine } from 'node-time-engine';
+import { nodeTimeEngine as engine } from '@zimtsui/node-time-engine';
 import assert = require('assert');
 import { $ } from '@zimtsui/startable';
 
