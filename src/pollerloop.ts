@@ -1,9 +1,10 @@
 import {
-	createStartable,
 	ReadyState,
 	StateError,
-	DaemonLike,
-} from 'startable';
+	AsRawStart,
+	AsRawStop,
+	$,
+} from '@zimtsui/startable';
 import {
 	TimeEngineLike,
 	Cancellable,
@@ -12,12 +13,7 @@ import { Timers } from './timers';
 
 
 
-export class Pollerloop implements DaemonLike {
-	public $s = createStartable(
-		() => this.rawStart(),
-		() => this.rawStop(),
-	);
-
+export class Pollerloop {
 	private timers = new Timers();
 	private loopPromise?: Promise<void>;
 
@@ -28,7 +24,7 @@ export class Pollerloop implements DaemonLike {
 	) { }
 
 	private sleep: Sleep = (ms: number): Cancellable => {
-		this.$s.assertState(
+		$(this).assertState(
 			[ReadyState.STARTING, ReadyState.STARTED],
 		);
 		const timer = new Cancellable(
@@ -39,14 +35,16 @@ export class Pollerloop implements DaemonLike {
 		return timer;
 	}
 
+	@AsRawStart()
 	protected async rawStart(): Promise<void> {
 		this.loopPromise = this.loop(this.sleep);
 		this.loopPromise.then(
-			() => this.$s.stop(),
-			err => this.$s.stop(err),
+			() => $(this).stop(),
+			err => $(this).stop(err),
 		);
 	}
 
+	@AsRawStop()
 	protected async rawStop(): Promise<void> {
 		this.timers.clear(new StateError(
 			ReadyState.STOPPING,

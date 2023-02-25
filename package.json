@@ -31,7 +31,9 @@
         "sinon": "^9.2.2"
     },
     "peerDependencies": {
-        "startable": "github:zimtsui/startable",
         "time-engine-like": "github:zimtsui/time-engine-like"
+    },
+    "dependencies": {
+        "@zimtsui/startable": "^0.0.3"
     }
 }

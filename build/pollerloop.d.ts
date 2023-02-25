@@ -1,9 +1,7 @@
-import { DaemonLike } from 'startable';
 import { TimeEngineLike, Cancellable } from 'time-engine-like';
-export declare class Pollerloop implements DaemonLike {
+export declare class Pollerloop {
     private loop;
     private engine;
-    $s: import("startable").Startable;
     private timers;
     private loopPromise?;
     constructor(loop: Loop, engine: TimeEngineLike);

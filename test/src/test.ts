@@ -7,6 +7,7 @@ import test from 'ava';
 import Bluebird = require('bluebird');
 import { nodeTimeEngine as engine } from 'node-time-engine';
 import assert = require('assert');
+import { $ } from '@zimtsui/startable';
 
 const { fake } = sinon;
 
@@ -44,11 +45,11 @@ test('test 1', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(loop, engine);
-    await pollerloop.$s.start(err => {
+    await $(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await $(pollerloop).getRunning();
+    await $(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -71,11 +72,11 @@ test('test exception', async t => {
     };
     const cb = fake();
     const pollerloop = new Pollerloop(loop, engine);
-    await pollerloop.$s.start(err => {
+    await $(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await assert.rejects(Promise.resolve(pollerloop.$s.getRunning()), CustomError);
-    await pollerloop.$s.stop().catch(() => { });
+    await assert.rejects(Promise.resolve($(pollerloop).getRunning()), CustomError);
+    await $(pollerloop).stop().catch(() => { });
     assert(cb.args[0][0] instanceof CustomError);
 });
 
@@ -94,14 +95,14 @@ test('test manual stop', async t => {
     const pollerloop = new Pollerloop(loop, engine);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
-        pollerloop.$s.stop();
+        $(pollerloop).stop();
     });
-    await pollerloop.$s.start(err => {
+    await $(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
     t.log(tik());
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await $(pollerloop).getRunning();
+    await $(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -121,11 +122,11 @@ test('test 2', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    await pollerloop.$s.start(err => {
+    await $(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await $(pollerloop).getRunning();
+    await $(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -150,11 +151,11 @@ test('test 3', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    await pollerloop.$s.start(err => {
+    await $(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await $(pollerloop).getRunning();
+    await $(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -179,11 +180,11 @@ test('test 4', async t => {
     };
     const cb = sinon.fake();
     const pollerloop = new Pollerloop(loop, engine);
-    await pollerloop.$s.start(err => {
+    await $(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await $(pollerloop).getRunning();
+    await $(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });

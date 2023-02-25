@@ -6,6 +6,7 @@ const ava_1 = require("ava");
 const Bluebird = require("bluebird");
 const node_time_engine_1 = require("node-time-engine");
 const assert = require("assert");
+const startable_1 = require("@zimtsui/startable");
 const { fake } = sinon;
 class CustomError extends Error {
     constructor() {
@@ -38,11 +39,11 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
-    await pollerloop.$s.start(err => {
+    await (0, startable_1.$)(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await (0, startable_1.$)(pollerloop).getRunning();
+    await (0, startable_1.$)(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(cb.args[0][0] === undefined);
 });
@@ -60,11 +61,11 @@ const createTik = () => {
     };
     const cb = fake();
     const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
-    await pollerloop.$s.start(err => {
+    await (0, startable_1.$)(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await assert.rejects(Promise.resolve(pollerloop.$s.getRunning()), CustomError);
-    await pollerloop.$s.stop().catch(() => { });
+    await assert.rejects(Promise.resolve((0, startable_1.$)(pollerloop).getRunning()), CustomError);
+    await (0, startable_1.$)(pollerloop).stop().catch(() => { });
     assert(cb.args[0][0] instanceof CustomError);
 });
 (0, ava_1.default)('test manual stop', async (t) => {
@@ -80,14 +81,14 @@ const createTik = () => {
     const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
     Bluebird.delay(1500).then(() => {
         t.log('pollerloop.stop()');
-        pollerloop.$s.stop();
+        (0, startable_1.$)(pollerloop).stop();
     });
-    await pollerloop.$s.start(err => {
+    await (0, startable_1.$)(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
     t.log(tik());
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await (0, startable_1.$)(pollerloop).getRunning();
+    await (0, startable_1.$)(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -105,11 +106,11 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
-    await pollerloop.$s.start(err => {
+    await (0, startable_1.$)(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await (0, startable_1.$)(pollerloop).getRunning();
+    await (0, startable_1.$)(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -130,11 +131,11 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
-    await pollerloop.$s.start(err => {
+    await (0, startable_1.$)(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await (0, startable_1.$)(pollerloop).getRunning();
+    await (0, startable_1.$)(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
@@ -155,11 +156,11 @@ const createTik = () => {
     };
     const cb = sinon.fake();
     const pollerloop = new __1.Pollerloop(loop, node_time_engine_1.nodeTimeEngine);
-    await pollerloop.$s.start(err => {
+    await (0, startable_1.$)(pollerloop).start(err => {
         cb(err);
     }).then(() => { }, () => { });
-    await pollerloop.$s.getRunning();
-    await pollerloop.$s.stop().catch(() => { });
+    await (0, startable_1.$)(pollerloop).getRunning();
+    await (0, startable_1.$)(pollerloop).stop().catch(() => { });
     assert(cb.callCount === 1);
     assert(typeof cb.args[0][0] === 'undefined');
 });
