@@ -1,8 +1,5 @@
 import sinon = require('sinon');
-import {
-    Pollerloop,
-    Loop,
-} from '../..';
+import { Pollerloop } from '../..';
 import test from 'ava';
 import Bluebird = require('bluebird');
 import { nodeTimeEngine as engine } from '@zimtsui/node-time-engine';
@@ -36,7 +33,7 @@ const createTik = () => {
 // test 1
 test('test 1', async t => {
     const tik = createTik();
-    const loop: Loop = async (sleep) => {
+    const loop: Pollerloop.Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000);
@@ -58,7 +55,7 @@ test('test 1', async t => {
 
 test('test exception', async t => {
     const tik = createTik();
-    const loop: Loop = async (sleep) => {
+    const loop: Pollerloop.Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000).catch(() => { });
@@ -84,7 +81,7 @@ test('test exception', async t => {
 
 test('test manual stop', async t => {
     const tik = createTik();
-    const loop: Loop = async (sleep) => {
+    const loop: Pollerloop.Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(1000);
@@ -109,7 +106,7 @@ test('test manual stop', async t => {
 
 test('test 2', async t => {
     const tik = createTik();
-    const loop: Loop = async (sleep) => {
+    const loop: Pollerloop.Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             t.log(tik());
             const timer1 = sleep(300);
@@ -133,7 +130,7 @@ test('test 2', async t => {
 
 test('test 3', async t => {
     const tik = createTik();
-    const loop: Loop = async (sleep) => {
+    const loop: Pollerloop.Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             const timer1 = sleep(800).catch(() => { });
 
@@ -162,7 +159,7 @@ test('test 3', async t => {
 
 test('test 4', async t => {
     const tik = createTik();
-    const loop: Loop = async (sleep) => {
+    const loop: Pollerloop.Loop = async (sleep) => {
         for (let i = 1; i <= 3; i += 1) {
             const timer1 = sleep(1000).catch(() => { });
 

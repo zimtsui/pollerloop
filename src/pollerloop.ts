@@ -16,11 +16,11 @@ export class Pollerloop {
 
 
 	public constructor(
-		private loop: Loop,
+		private loop: Pollerloop.Loop,
 		private engine: TimeEngineLike,
 	) { }
 
-	private sleep: Sleep = (ms: number): TimeEngineLike.Cancellable => {
+	private sleep: Pollerloop.Sleep = (ms: number): TimeEngineLike.Cancellable => {
 		$(this).assertState(
 			[ReadyState.STARTING, ReadyState.STARTED],
 		);
@@ -51,10 +51,12 @@ export class Pollerloop {
 	}
 }
 
-export interface Loop {
-	(sleep: Sleep): Promise<void>;
-}
+export namespace Pollerloop {
+	export interface Loop {
+		(sleep: Sleep): Promise<void>;
+	}
 
-export interface Sleep {
-	(ms: number): TimeEngineLike.Cancellable;
+	export interface Sleep {
+		(ms: number): TimeEngineLike.Cancellable;
+	}
 }
